@@ -2,5 +2,55 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
+        <content>
+            <Table
+                id="booksTable"
+                items="{/books}"
+                noDataText="{i18n>booksNoData}">
+                <columns>
+                    <Column id="_IDGenColumn1">
+                        <Text id="_IDGenText" text="{i18n>bookId}" />
+                    </Column>
+                    <Column id="_IDGenColumn2"
+                        minScreenWidth="Tablet"
+                        demandPopin="true">
+                        <Text id="_IDGenText1" text="{i18n>bookName}" />
+                    </Column>
+                    <Column id="_IDGenColumn3"
+                        minScreenWidth="Tablet"
+                        demandPopin="true">
+                        <Text id="_IDGenText2" text="{i18n>bookAuthor}" />
+                    </Column>
+                    <Column id="_IDGenColumn4"
+                        minScreenWidth="Desktop"
+                        demandPopin="true">
+                        <Text id="_IDGenText3" text="{i18n>bookGenre}" />
+                    </Column>
+                    <Column id="_IDGenColumn5"
+                        minScreenWidth="Desktop"
+                        demandPopin="true">
+                        <Text id="_IDGenText4" text="{i18n>bookReleaseDate}" />
+                    </Column>
+                    <Column id="_IDGenColumn6"
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="End">
+                        <Text id="_IDGenText5" text="{i18n>bookAvailableQuantity}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="_IDGenColumnListItem">
+                        <cells>
+                            <Text id="_IDGenText6" text="{ID}" />
+                            <Text id="_IDGenText7" text="{Name}" />
+                            <Text id="_IDGenText8" text="{Author}" />
+                            <Text id="_IDGenText9" text="{Genre}" />
+                            <Text id="_IDGenText10" text="{path: 'ReleaseDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' }}" />
+                            <ObjectNumber id="_IDGenObjectNumber" number="{AvailableQuantity}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
     </Page>
 </mvc:View>
