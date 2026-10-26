@@ -1,12 +1,45 @@
 <mvc:View controllerName="project.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <content>
             <Table
                 id="booksTable"
+                mode="MultiSelect"
                 items="{/books}"
                 noDataText="{i18n>booksNoData}">
+                <headerToolbar>
+                    <Toolbar id="_IDGenToolbar">
+                        <Title id="_IDGenTitle" text="{i18n>booksTableTitle}" />
+                        <Input
+                            id="bookTitleFilter"
+                            width="12rem"
+                            placeholder="{i18n>filterTitlePlaceholder}" />
+                        <Select
+                            id="bookGenreFilter"
+                            width="12rem"
+                            items="{/genres}">
+                            
+                            <core:Item id="_IDGenItem" key="{key}" text="{text}" />
+                        </Select>
+                        <Button
+                            id="filterBooksButton"
+                            text="{i18n>filterButton}"
+                            icon="sap-icon://filter"
+                            press=".onFilterBooks" />
+                        <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                        <Button id="_IDGenButton"
+                            text="{i18n>addRecord}"
+                            icon="sap-icon://add"
+                            press=".onAddRecord" />
+                        <Button id="_IDGenButton1"
+                            text="{i18n>deleteRecord}"
+                            icon="sap-icon://delete"
+                            type="Reject"
+                            press=".onDeleteRecord" />
+                    </Toolbar>
+                </headerToolbar>
                 <columns>
                     <Column id="_IDGenColumn1">
                         <Text id="_IDGenText" text="{i18n>bookId}" />

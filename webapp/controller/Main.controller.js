@@ -1,13 +1,14 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    "project/controller/BaseController",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel"
-], (Controller, JSONModel) => {
+], (BaseController, Filter, FilterOperator, JSONModel) => {
     "use strict";
 
-    return Controller.extend("project.controller.Main", {
+    return BaseController.extend("project.controller.Main", {
         onInit() {
-            const oBookModel = new JSONModel({
-                books: [
+            const aBooks = [
                     {
                         ID: "B001",
                         Name: "The Hobbit",
@@ -56,10 +57,77 @@ sap.ui.define([
                         ReleaseDate: new Date(1980, 0, 1),
                         AvailableQuantity: 6
                     }
+                ];
+            const aGenres = Array.from(new Set(aBooks.map((oBook) => oBook.Genre)))
+                .sort((sFirst, sSecond) => sFirst.localeCompare(sSecond))
+                .map((sGenre) => ({
+                    key: sGenre,
+                    text: sGenre
+                }));
+            const oBookModel = new JSONModel({
+                books: aBooks,
+                genres: [
+                    {
+                        key: "",
+                        text: "allGenres"
+                    },
+                    ...aGenres
                 ]
             });
 
             this.getView().setModel(oBookModel);
+        },
+
+
+
+        onAddRecord() {
+            const oModel = this.getModel();
+            const aBooks = oModel.getProperty("/books");
+
+            oModel.setProperty("/books", aBooks.concat({
+                ID: "",
+                Name: "",
+                Author: "",
+                Genre: "",
+                ReleaseDate: null,
+                AvailableQuantity: null
+            }));
+        },
+
+        onDeleteRecord() {
+            const oTable = this.byId("booksTable");
+            const aSelectedItems = oTable.getSelectedItems();
+
+            if (!aSelectedItems.length) {
+                return;
+            }
+
+            const oModel = this.getModel();
+            const aSelectedIndices = new Set(aSelectedItems.map((oItem) => {
+                const sPath = oItem.getBindingContext().getPath();
+                return Number(sPath.substring(sPath.lastIndexOf("/") + 1));
+            }));
+            const aBooks = oModel.getProperty("/books")
+                .filter((_oBook, iIndex) => !aSelectedIndices.has(iIndex));
+
+            oModel.setProperty("/books", aBooks);
+            oTable.removeSelections(true);
+        },
+
+        onFilterBooks() {
+            const aFilters = [];
+            const sTitle = this.byId("bookTitleFilter").getValue().trim();
+            const sGenre = this.byId("bookGenreFilter").getSelectedKey();
+
+            if (sTitle) {
+                aFilters.push(new Filter("Name", FilterOperator.Contains, sTitle));
+            }
+
+            if (sGenre) {
+                aFilters.push(new Filter("Genre", FilterOperator.EQ, sGenre));
+            }
+
+            this.byId("booksTable").getBinding("items").filter(aFilters);
         }
     });
 });
