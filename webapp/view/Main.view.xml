@@ -38,7 +38,7 @@
                             text="{i18n>deleteRecord}"
                             icon="sap-icon://delete"
                             type="Reject"
-                            enabled="false"
+                            enabled="{ui>/hasSelection}"
                             press=".onDeleteRecord" />
                     </Toolbar>
                 </headerToolbar>

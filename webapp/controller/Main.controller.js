@@ -59,6 +59,7 @@ sap.ui.define([
                     AvailableQuantity: 6
                 }
             ];
+
             const aGenres = Array.from(new Set(aBooks.map((oBook) => oBook.Genre)))
                 .sort((sFirst, sSecond) => sFirst.localeCompare(sSecond))
                 .map((sGenre) => ({
@@ -77,10 +78,17 @@ sap.ui.define([
             });
 
             this.getView().setModel(oBookModel);
+
+            const oTableModel = new JSONModel({ hasSelection: false });
+
+            this.getView().setModel(oTableModel, "ui");
         },
 
         onSelectionChange(oEvent) {
-            this.byId("deleteRecordButton").setEnabled(oEvent.getSource().getSelectedItems().length > 0);
+            this.getView().getModel("ui").setProperty(
+                "/hasSelection",
+                oEvent.getSource().getSelectedItems().length > 0
+            );
         },
 
         onAddRecord() {
