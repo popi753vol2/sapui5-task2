@@ -79,9 +79,15 @@ sap.ui.define([
 
             this.getView().setModel(oBookModel);
 
-            const oTableModel = new JSONModel({ hasSelection: false });
+            const oUiModel = new JSONModel({
+                hasSelection: false,
+                filters: {
+                    title: "",
+                    genre: ""
+                }
+            });
 
-            this.getView().setModel(oTableModel, "ui");
+            this.getView().setModel(oUiModel, "ui");
         },
 
         onSelectionChange(oEvent) {
@@ -124,8 +130,11 @@ sap.ui.define([
 
         onFilterBooks() {
             const aFilters = [];
-            const sTitle = this.byId("bookTitleFilter").getValue().trim();
-            const sGenre = this.byId("bookGenreFilter").getSelectedKey();
+            // const sTitle = this.byId("bookTitleFilter").getValue().trim();
+            // const sGenre = this.byId("bookGenreFilter").getSelectedKey();
+            const oUiModel = this.getView().getModel("ui");
+            const sTitle = oUiModel.getProperty("/filters/title").trim();
+            const sGenre = oUiModel.getProperty("/filters/genre");
 
             if (sTitle) {
                 aFilters.push(new Filter("Name", FilterOperator.Contains, sTitle));

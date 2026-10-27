@@ -15,10 +15,12 @@
                         <Title id="_IDGenTitle" text="{i18n>booksTableTitle}" />
                         <Input
                             id="bookTitleFilter"
+                            value="{ui>/filters/title}"
                             width="12rem"
                             placeholder="{i18n>filterTitlePlaceholder}" />
                         <Select
                             id="bookGenreFilter"
+                            selectedKey="{ui>/filters/genre}"
                             width="12rem"
                             items="{/genres}">
                             
