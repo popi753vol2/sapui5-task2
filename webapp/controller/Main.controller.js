@@ -2,8 +2,9 @@ sap.ui.define([
     "project/controller/BaseController",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/json/JSONModel"
-], (BaseController, Filter, FilterOperator, JSONModel) => {
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageToast"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast) => {
     "use strict";
 
     return BaseController.extend("project.controller.Main", {
@@ -69,7 +70,7 @@ sap.ui.define([
                 genres: [
                     {
                         key: "",
-                        text: this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("allGenres")
+                        text: this.getText("allGenres")
                     },
                     ...aGenres
                 ]
@@ -78,7 +79,9 @@ sap.ui.define([
             this.getView().setModel(oBookModel);
         },
 
-
+        onSelectionChange(oEvent) {
+            this.byId("deleteRecordButton").setEnabled(oEvent.getSource().getSelectedItems().length > 0);
+        },
 
         onAddRecord() {
             const oModel = this.getModel();
@@ -94,21 +97,18 @@ sap.ui.define([
             }));
         },
 
-        onDeleteRecord() {
-            const oTable = this.byId("booksTable");
-            const aSelectedItems = oTable.getSelectedItems();
+        onDeleteRecord(oEvent) {
+            const oTable = oEvent.getSource().getParent().getParent();
+            const aSelectedContexts = oTable.getSelectedContextPaths();
 
-            if (!aSelectedItems.length) {
-                return;
+            if (!aSelectedContexts.length) {
+                return MessageToast.show(this.getText("noSelectionMessage"));
             }
 
             const oModel = this.getModel();
-            const aSelectedIndices = new Set(aSelectedItems.map((oItem) => {
-                const sPath = oItem.getBindingContext().getPath();
-                return Number(sPath.substring(sPath.lastIndexOf("/") + 1));
-            }));
+
             const aBooks = oModel.getProperty("/books")
-                .filter((_oBook, iIndex) => !aSelectedIndices.has(iIndex));
+                .filter((_oBook, iIndex) => !aSelectedContexts.includes("/books/" + iIndex));
 
             oModel.setProperty("/books", aBooks);
             oTable.removeSelections(true);

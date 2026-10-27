@@ -8,6 +8,7 @@
                 id="booksTable"
                 mode="MultiSelect"
                 items="{/books}"
+                selectionChange=".onSelectionChange"
                 noDataText="{i18n>booksNoData}">
                 <headerToolbar>
                     <Toolbar id="_IDGenToolbar">
@@ -29,14 +30,15 @@
                             icon="sap-icon://filter"
                             press=".onFilterBooks" />
                         <ToolbarSpacer id="_IDGenToolbarSpacer1" />
-                        <Button id="_IDGenButton"
+                        <Button id="addRecordButton"
                             text="{i18n>addRecord}"
                             icon="sap-icon://add"
                             press=".onAddRecord" />
-                        <Button id="_IDGenButton1"
+                        <Button id="deleteRecordButton"
                             text="{i18n>deleteRecord}"
                             icon="sap-icon://delete"
                             type="Reject"
+                            enabled="false"
                             press=".onDeleteRecord" />
                     </Toolbar>
                 </headerToolbar>
