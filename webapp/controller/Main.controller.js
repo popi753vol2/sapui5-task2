@@ -16,7 +16,8 @@ sap.ui.define([
                     Author: "J.R.R. Tolkien",
                     Genre: "Fantasy",
                     ReleaseDate: new Date(1937, 8, 21),
-                    AvailableQuantity: 4
+                    AvailableQuantity: 4,
+                    editMode: false
                 },
                 {
                     ID: "B002",
@@ -24,7 +25,8 @@ sap.ui.define([
                     Author: "Jane Austen",
                     Genre: "Romance",
                     ReleaseDate: new Date(1813, 0, 28),
-                    AvailableQuantity: 7
+                    AvailableQuantity: 7,
+                    editMode: false
                 },
                 {
                     ID: "B003",
@@ -32,7 +34,8 @@ sap.ui.define([
                     Author: "George Orwell",
                     Genre: "Dystopian",
                     ReleaseDate: new Date(1949, 5, 8),
-                    AvailableQuantity: 3
+                    AvailableQuantity: 3,
+                    editMode: false
                 },
                 {
                     ID: "B004",
@@ -40,7 +43,8 @@ sap.ui.define([
                     Author: "F. Scott Fitzgerald",
                     Genre: "Classic",
                     ReleaseDate: new Date(1925, 3, 10),
-                    AvailableQuantity: 5
+                    AvailableQuantity: 5,
+                    editMode: false
                 },
                 {
                     ID: "B005",
@@ -48,7 +52,8 @@ sap.ui.define([
                     Author: "Harper Lee",
                     Genre: "Fiction",
                     ReleaseDate: new Date(1960, 6, 11),
-                    AvailableQuantity: 2
+                    AvailableQuantity: 2,
+                    editMode: false
                 },
                 {
                     ID: "B006",
@@ -56,7 +61,8 @@ sap.ui.define([
                     Author: "Umberto Eco",
                     Genre: "Mystery",
                     ReleaseDate: new Date(1980, 0, 1),
-                    AvailableQuantity: 6
+                    AvailableQuantity: 6,
+                    editMode: false
                 }
             ];
 
@@ -96,6 +102,29 @@ sap.ui.define([
                 oEvent.getSource().getSelectedItems().length > 0
             );
         },
+        
+        // onEditTitle(oEvent) {
+        //     const oContext = oEvent.getSource().getBindingContext();
+        //     this.getModel().setProperty(oContext.getPath() + "/editMode", true);
+        // },
+
+        onEditTitle(oEvent) {
+            const oContext = oEvent.getSource().getBindingContext();
+            const sPath = oContext.getPath();
+            const oModel = this.getModel();
+
+            oModel.setProperty(sPath + "/editName", oContext.getProperty("Name"));
+            oModel.setProperty(sPath + "/editMode", true);
+        },
+
+        onSaveTitle(oEvent) {
+            const oContext = oEvent.getSource().getBindingContext();
+            const sPath = oContext.getPath();
+            const oModel = this.getModel();
+
+            oModel.setProperty(sPath + "/Name", oContext.getProperty("editName"));
+            oModel.setProperty(sPath + "/editMode", false);
+        },
 
         onAddRecord() {
             const oModel = this.getModel();
@@ -107,7 +136,8 @@ sap.ui.define([
                 Author: "",
                 Genre: "",
                 ReleaseDate: null,
-                AvailableQuantity: null
+                AvailableQuantity: null,
+                editMode: false
             }));
         },
 
@@ -130,8 +160,7 @@ sap.ui.define([
 
         onFilterBooks() {
             const aFilters = [];
-            // const sTitle = this.byId("bookTitleFilter").getValue().trim();
-            // const sGenre = this.byId("bookGenreFilter").getSelectedKey();
+
             const oUiModel = this.getView().getModel("ui");
             const sTitle = oUiModel.getProperty("/filters/title").trim();
             const sGenre = oUiModel.getProperty("/filters/genre");

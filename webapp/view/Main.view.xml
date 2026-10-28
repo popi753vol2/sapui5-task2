@@ -74,16 +74,26 @@
                         hAlign="End">
                         <Text id="_IDGenText5" text="{i18n>bookAvailableQuantity}" />
                     </Column>
+                    <Column id="_IDGenColumn7">
+                        <Text id="_IDGenText12" text="{i18n>actions}" />
+                    </Column>
                 </columns>
                 <items>
                     <ColumnListItem id="_IDGenColumnListItem">
                         <cells>
                             <Text id="_IDGenText6" text="{ID}" />
-                            <Text id="_IDGenText7" text="{Name}" />
+                            <VBox id="_IDGenVBox">
+                                <Text id="_IDGenText7" text="{Name}" visible="{= !${editMode} }" />
+                                <Input id="_IDGenInput" value="{editName}" visible="{editMode}" />
+                            </VBox>
                             <Text id="_IDGenText8" text="{Author}" />
                             <Text id="_IDGenText9" text="{Genre}" />
                             <Text id="_IDGenText10" text="{path: 'ReleaseDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' }}" />
                             <ObjectNumber id="_IDGenObjectNumber" number="{AvailableQuantity}" />
+                            <VBox id="_IDGenVbox1" renderType="Bare">
+                                <Button id="_IDGenButton" text="{i18n>editTitle}" visible="{= !${editMode} }" press=".onEditTitle"/>
+                                <Button id="_IDGenSaveButton" text="{i18n>saveTitle}" visible="{editMode}" press=".onSaveTitle" type="Accept"/>
+                            </VBox>
                         </cells>
                     </ColumnListItem>
                 </items>
