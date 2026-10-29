@@ -103,27 +103,17 @@ sap.ui.define([
             );
         },
         
-        // onEditTitle(oEvent) {
-        //     const oContext = oEvent.getSource().getBindingContext();
-        //     this.getModel().setProperty(oContext.getPath() + "/editMode", true);
-        // },
-
-        onEditTitle(oEvent) {
+        onHandleAction(oEvent, bEdit) {
             const oContext = oEvent.getSource().getBindingContext();
             const sPath = oContext.getPath();
             const oModel = this.getModel();
 
-            oModel.setProperty(sPath + "/editName", oContext.getProperty("Name"));
-            oModel.setProperty(sPath + "/editMode", true);
-        },
-
-        onSaveTitle(oEvent) {
-            const oContext = oEvent.getSource().getBindingContext();
-            const sPath = oContext.getPath();
-            const oModel = this.getModel();
-
-            oModel.setProperty(sPath + "/Name", oContext.getProperty("editName"));
-            oModel.setProperty(sPath + "/editMode", false);
+            if (bEdit) {
+                oModel.setProperty(sPath + "/editName", oContext.getProperty("Name"));
+            } else {
+                oModel.setProperty(sPath + "/Name", oContext.getProperty("editName"));
+            }
+            oModel.setProperty(sPath + "/editMode", bEdit);
         },
 
         onAddRecord() {

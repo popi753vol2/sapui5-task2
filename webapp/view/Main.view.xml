@@ -91,8 +91,8 @@
                             <Text id="_IDGenText10" text="{path: 'ReleaseDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' }}" />
                             <ObjectNumber id="_IDGenObjectNumber" number="{AvailableQuantity}" />
                             <VBox id="_IDGenVbox1" renderType="Bare">
-                                <Button id="_IDGenButton" text="{i18n>editTitle}" visible="{= !${editMode} }" press=".onEditTitle"/>
-                                <Button id="_IDGenSaveButton" text="{i18n>saveTitle}" visible="{editMode}" press=".onSaveTitle" type="Accept"/>
+                                <Button id="_IDGenButton" text="{i18n>editTitle}" visible="{= !${editMode} }" press=".onHandleAction($event, true)"/>
+                                <Button id="_IDGenSaveButton" text="{i18n>saveTitle}" visible="{editMode}" press=".onHandleAction($event, false)" type="Accept"/>
                             </VBox>
                         </cells>
                     </ColumnListItem>
