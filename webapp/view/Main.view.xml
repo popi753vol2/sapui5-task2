@@ -41,7 +41,7 @@
                             icon="sap-icon://delete"
                             type="Reject"
                             enabled="{ui>/hasSelection}"
-                            press=".onDeleteRecord" />
+                            press=".onConfirmDelete" />
                     </Toolbar>
                 </headerToolbar>
                 <columns>

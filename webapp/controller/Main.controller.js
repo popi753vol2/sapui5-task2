@@ -3,8 +3,11 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageToast"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast) => {
+    "sap/m/MessageToast",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/Text"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, Dialog, Button, Text) => {
     "use strict";
 
     return BaseController.extend("project.controller.Main", {
@@ -102,7 +105,7 @@ sap.ui.define([
                 oEvent.getSource().getSelectedItems().length > 0
             );
         },
-        
+
         onHandleAction(oEvent, bEdit) {
             const oContext = oEvent.getSource().getBindingContext();
             const sPath = oContext.getPath();
@@ -131,16 +134,44 @@ sap.ui.define([
             }));
         },
 
-        onDeleteRecord(oEvent) {
+        onConfirmDelete(oEvent) {
             const oTable = oEvent.getSource().getParent().getParent();
             const aSelectedContexts = oTable.getSelectedContextPaths();
 
             if (!aSelectedContexts.length) {
-                return MessageToast.show(this.getText("noSelectionMessage"));
+                MessageToast.show(this.getText("noSelectionMessage"));
+                return;
+            }
+            if (!this.deleteDialog) {
+                this.deleteDialog = new Dialog({
+                    type: "Message",
+                    title: this.getText("deleteConfirmationTitle"),
+                    state: "Error",
+                    content: new Text({ text: this.getText("deleteConfirmationMessage") }),
+                    beginButton: new Button({
+                        text: this.getText("yes"),
+                        type: "Emphasized",
+                        press: () => {
+                            this.onDeleteSelected(oTable, aSelectedContexts);
+                            this.deleteDialog.close();
+                        }
+                    }),
+                    endButton: new Button({
+                        text: this.getText("no"),
+                        press: () => this.deleteDialog.close()
+                    }),
+                    afterClose: () => {
+                        this.deleteDialog.destroy();
+                        this.deleteDialog = null;
+                    }
+                });
             }
 
-            const oModel = this.getModel();
+            this.deleteDialog.open();
+        },
 
+        onDeleteSelected(oTable, aSelectedContexts) {
+            const oModel = this.getModel();
             const aBooks = oModel.getProperty("/books")
                 .filter((_oBook, iIndex) => !aSelectedContexts.includes("/books/" + iIndex));
 
