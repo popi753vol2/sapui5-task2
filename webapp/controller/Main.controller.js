@@ -4,10 +4,8 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
-    "sap/m/Dialog",
-    "sap/m/Button",
-    "sap/m/Text"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, Dialog, Button, Text) => {
+    "sap/m/MessageBox"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox) => {
     "use strict";
 
     return BaseController.extend("project.controller.Main", {
@@ -142,32 +140,19 @@ sap.ui.define([
                 MessageToast.show(this.getText("noSelectionMessage"));
                 return;
             }
-            if (!this.deleteDialog) {
-                this.deleteDialog = new Dialog({
-                    type: "Message",
-                    title: this.getText("deleteConfirmationTitle"),
-                    state: "Error",
-                    content: new Text({ text: this.getText("deleteConfirmationMessage") }),
-                    beginButton: new Button({
-                        text: this.getText("yes"),
-                        type: "Emphasized",
-                        press: () => {
-                            this.onDeleteSelected(oTable, aSelectedContexts);
-                            this.deleteDialog.close();
-                        }
-                    }),
-                    endButton: new Button({
-                        text: this.getText("no"),
-                        press: () => this.deleteDialog.close()
-                    }),
-                    afterClose: () => {
-                        this.deleteDialog.destroy();
-                        this.deleteDialog = null;
-                    }
-                });
-            }
+            const sYes = this.getText("yes");
+            const sNo = this.getText("no");
 
-            this.deleteDialog.open();
+            MessageBox.confirm(this.getText("deleteConfirmationMessage"), {
+                title: this.getText("deleteConfirmationTitle"),
+                actions: [sYes, sNo],
+                emphasizedAction: sYes,
+                onClose: (sAction) => {
+                    if (sAction === sYes) {
+                        this.onDeleteSelected(oTable, aSelectedContexts);
+                    }
+                }
+            });
         },
 
         onDeleteSelected(oTable, aSelectedContexts) {
