@@ -127,14 +127,13 @@ sap.ui.define([
                 ReleaseDate: "",
                 AvailableQuantity: NaN
             });
-            this.getView().setModel(newBookModel, "newBook");
-
             if (!this.oAddBookDialog) {
                 this.oAddBookDialog = await this.loadFragment({
                     name: "project.view.fragments.AddBookDialog"
                 });
             }
 
+            this.oAddBookDialog.setModel(newBookModel, "newBook");
             this.clearAddBookValidation();
             this.oAddBookDialog.open();
         },
@@ -149,8 +148,7 @@ sap.ui.define([
         },
 
         onSaveNewBook() {
-            const oView = this.getView();
-            const oData = oView.getModel("newBook").getData();
+            const oData = this.oAddBookDialog.getModel("newBook").getData();
             const oDatePicker = this.byId("bookReleaseDateInput");
             const sId = this.generateBookId();
 
