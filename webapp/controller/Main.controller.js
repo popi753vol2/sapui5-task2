@@ -5,9 +5,11 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-    "sap/ui/core/ValueState"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, ValueState) => {
+    "sap/ui/core/library"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary) => {
     "use strict";
+
+    const ValueState = coreLibrary.ValueState;
 
     return BaseController.extend("project.controller.Main", {
         onInit() {
