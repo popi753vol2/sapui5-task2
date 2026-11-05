@@ -4,8 +4,9 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
-    "sap/m/MessageBox"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox) => {
+    "sap/m/MessageBox",
+    "sap/ui/core/ValueState"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, ValueState) => {
     "use strict";
 
     return BaseController.extend("project.controller.Main", {
@@ -118,18 +119,98 @@ sap.ui.define([
         },
 
         onAddRecord() {
-            const oModel = this.getModel();
-            const aBooks = oModel.getProperty("/books");
-
-            oModel.setProperty("/books", aBooks.concat({
+            const newBookModel = new JSONModel({
                 ID: "",
                 Name: "",
                 Author: "",
                 Genre: "",
-                ReleaseDate: null,
-                AvailableQuantity: null,
+                ReleaseDate: "",
+                AvailableQuantity: NaN
+            });
+            this.getView().setModel(newBookModel, "newBook");
+
+            if (!this.pAddBookDialog) {
+
+                this.pAddBookDialog = this.loadFragment({
+                    name: "project.view.fragments.AddBookDialog"
+                });
+            }
+
+            this.pAddBookDialog.then((oDialog) => {
+                this.clearAddBookValidation();
+                oDialog.open();
+            });
+        },
+
+        clearAddBookValidation() {
+            ["bookNameInput", "bookAuthorInput", "bookGenreInput",
+                "bookReleaseDateInput", "bookQuantityInput"].forEach((sId) => {
+                    const oControl = this.byId(sId);
+                    oControl.setValueState(ValueState.None);
+                    oControl.setValueStateText("");
+                });
+        },
+
+        onSaveNewBook() {
+            const oView = this.getView();
+            const oData = oView.getModel("newBook").getData();
+            const oDatePicker = this.byId("bookReleaseDateInput");
+            const sId = this.generateBookId();
+
+            const sName = oData.Name.trim();
+            const sAuthor = oData.Author.trim();
+            const sGenre = oData.Genre.trim();
+            const sQuantity = String(oData.AvailableQuantity).trim();
+            const iQuantity = Number(sQuantity);
+            const oReleaseDate = oDatePicker.getDateValue();
+
+            const aValidation = [
+                ["bookNameInput", Boolean(sName), "addBookFieldRequired"],
+                ["bookAuthorInput", Boolean(sAuthor), "addBookFieldRequired"],
+                ["bookGenreInput", Boolean(sGenre), "addBookFieldRequired"],
+                ["bookReleaseDateInput", Boolean(oDatePicker.getValue().trim() && oReleaseDate), "addBookFieldRequired"],
+                ["bookQuantityInput", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addBookQuantityInvalid"]
+            ];
+            let bIsValid = true;
+
+            aValidation.forEach(([sControlId, bFieldValid, sErrorKey]) => {
+                if (!bFieldValid) {
+                    const oControl = this.byId(sControlId);
+                    oControl.setValueState(ValueState.Error);
+                    oControl.setValueStateText(this.getText(sErrorKey));
+                    bIsValid = false;
+                }
+            });
+
+            if (!bIsValid) {
+                MessageBox.error(this.getText("addBookValidationMessage"));
+                return;
+            }
+
+            const oBookModel = this.getModel();
+            const aBooks = oBookModel.getProperty("/books");
+            oBookModel.setProperty("/books", aBooks.concat({
+                ID: sId,
+                Name: sName,
+                Author: sAuthor,
+                Genre: sGenre,
+                ReleaseDate: oReleaseDate,
+                AvailableQuantity: iQuantity,
                 editMode: false
             }));
+
+            const aGenres = oBookModel.getProperty("/genres");
+            if (!aGenres.some((oGenre) => oGenre.key === sGenre)) {
+                const aSortedGenres = aGenres.slice(1).concat({ key: sGenre, text: sGenre })
+                    .sort((oFirst, oSecond) => oFirst.text.localeCompare(oSecond.text));
+                oBookModel.setProperty("/genres", [aGenres[0], ...aSortedGenres]);
+            }
+
+            this.byId("addBookDialog").close();
+        },
+
+        onCancelAddBook() {
+            this.byId("addBookDialog").close();
         },
 
         onConfirmDelete(oEvent) {
