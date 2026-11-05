@@ -11,16 +11,22 @@
                 <Input
                     id="bookNameInput"
                     value="{newBook>/Name}"
+                    valueState="{newBook>/validation/Name/valueState}"
+                    valueStateText="{newBook>/validation/Name/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel2" text="{i18n>bookAuthor}" labelFor="bookAuthorInput" required="true" />
                 <Input
                     id="bookAuthorInput"
                     value="{newBook>/Author}"
+                    valueState="{newBook>/validation/Author/valueState}"
+                    valueStateText="{newBook>/validation/Author/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel3" text="{i18n>bookGenre}" labelFor="bookGenreInput" required="true" />
                 <Input
                     id="bookGenreInput"
                     value="{newBook>/Genre}"
+                    valueState="{newBook>/validation/Genre/valueState}"
+                    valueStateText="{newBook>/validation/Genre/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel4" text="{i18n>bookReleaseDate}" labelFor="bookReleaseDateInput" required="true" />
                 <DatePicker
@@ -28,12 +34,16 @@
                     value="{newBook>/ReleaseDate}"
                     valueFormat="yyyy-MM-dd"
                     displayFormat="yyyy-MM-dd"
+                    valueState="{newBook>/validation/ReleaseDate/valueState}"
+                    valueStateText="{newBook>/validation/ReleaseDate/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel5" text="{i18n>bookAvailableQuantity}" labelFor="bookQuantityInput" required="true" />
                 <Input
                     id="bookQuantityInput"
                     value="{newBook>/AvailableQuantity}"
                     type="Number"
+                    valueState="{newBook>/validation/AvailableQuantity/valueState}"
+                    valueStateText="{newBook>/validation/AvailableQuantity/valueStateText}"
                     required="true" />
             </VBox>
         </content>

@@ -127,7 +127,8 @@ sap.ui.define([
                 Author: "",
                 Genre: "",
                 ReleaseDate: "",
-                AvailableQuantity: NaN
+                AvailableQuantity: NaN,
+                validation: {}
             });
             if (!this.oAddBookDialog) {
                 this.oAddBookDialog = await this.loadFragment({
@@ -141,12 +142,14 @@ sap.ui.define([
         },
 
         clearAddBookValidation() {
-            ["bookNameInput", "bookAuthorInput", "bookGenreInput",
-                "bookReleaseDateInput", "bookQuantityInput"].forEach((sId) => {
-                    const oControl = this.byId(sId);
-                    oControl.setValueState(ValueState.None);
-                    oControl.setValueStateText("");
-                });
+            const oValidation = {};
+            ["Name", "Author", "Genre", "ReleaseDate", "AvailableQuantity"].forEach((sField) => {
+                oValidation[sField] = {
+                    valueState: ValueState.None,
+                    valueStateText: ""
+                };
+            });
+            this.oAddBookDialog.getModel("newBook").setProperty("/validation", oValidation);
         },
 
         onSaveNewBook() {
@@ -164,21 +167,22 @@ sap.ui.define([
             const bReleaseDateIsValid = !isNaN(oReleaseDate);
 
             const aValidation = [
-                ["bookNameInput", Boolean(sName), "addBookFieldRequired"],
-                ["bookAuthorInput", Boolean(sAuthor), "addBookFieldRequired"],
-                ["bookGenreInput", Boolean(sGenre), "addBookFieldRequired"],
-                ["bookReleaseDateInput", bReleaseDateIsValid, "addBookFieldRequired"],
-                ["bookQuantityInput", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addBookQuantityInvalid"]
+                ["Name", Boolean(sName), "addBookFieldRequired"],
+                ["Author", Boolean(sAuthor), "addBookFieldRequired"],
+                ["Genre", Boolean(sGenre), "addBookFieldRequired"],
+                ["ReleaseDate", bReleaseDateIsValid, "addBookFieldRequired"],
+                ["AvailableQuantity", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addBookQuantityInvalid"]
             ];
+            const oNewBookModel = this.oAddBookDialog.getModel("newBook");
             let bIsValid = true;
 
-            aValidation.forEach(([sControlId, bFieldValid, sErrorKey]) => {
-                if (!bFieldValid) {
-                    const oControl = this.byId(sControlId);
-                    oControl.setValueState(ValueState.Error);
-                    oControl.setValueStateText(this.getText(sErrorKey));
-                    bIsValid = false;
-                }
+            aValidation.forEach(([sField, bFieldValid, sErrorKey]) => {
+                oNewBookModel.setProperty(`/validation/${sField}/valueState`,
+                    bFieldValid ? ValueState.None : ValueState.Error);
+                oNewBookModel.setProperty(`/validation/${sField}/valueStateText`,
+                    bFieldValid ? "" : this.getText(sErrorKey));
+
+                bIsValid = bIsValid && bFieldValid;
             });
 
             if (!bIsValid) {
