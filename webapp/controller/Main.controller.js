@@ -3,8 +3,9 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageToast"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast) => {
+    "sap/m/MessageToast",
+    "sap/m/MessageBox"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox) => {
     "use strict";
 
     return BaseController.extend("project.controller.Main", {
@@ -102,7 +103,7 @@ sap.ui.define([
                 oEvent.getSource().getSelectedItems().length > 0
             );
         },
-        
+
         onHandleAction(oEvent, bEdit) {
             const oContext = oEvent.getSource().getBindingContext();
             const sPath = oContext.getPath();
@@ -131,16 +132,31 @@ sap.ui.define([
             }));
         },
 
-        onDeleteRecord(oEvent) {
+        onConfirmDelete(oEvent) {
             const oTable = oEvent.getSource().getParent().getParent();
             const aSelectedContexts = oTable.getSelectedContextPaths();
 
             if (!aSelectedContexts.length) {
-                return MessageToast.show(this.getText("noSelectionMessage"));
+                MessageToast.show(this.getText("noSelectionMessage"));
+                return;
             }
+            const sYes = this.getText("yes");
+            const sNo = this.getText("no");
 
+            MessageBox.confirm(this.getText("deleteConfirmationMessage"), {
+                title: this.getText("deleteConfirmationTitle"),
+                actions: [sYes, sNo],
+                emphasizedAction: sYes,
+                onClose: (sAction) => {
+                    if (sAction === sYes) {
+                        this.onDeleteSelected(oTable, aSelectedContexts);
+                    }
+                }
+            });
+        },
+
+        onDeleteSelected(oTable, aSelectedContexts) {
             const oModel = this.getModel();
-
             const aBooks = oModel.getProperty("/books")
                 .filter((_oBook, iIndex) => !aSelectedContexts.includes("/books/" + iIndex));
 
