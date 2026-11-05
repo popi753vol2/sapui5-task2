@@ -118,7 +118,7 @@ sap.ui.define([
             oModel.setProperty(sPath + "/editMode", bEdit);
         },
 
-        onAddRecord() {
+        async onAddRecord() {
             const newBookModel = new JSONModel({
                 ID: "",
                 Name: "",
@@ -129,17 +129,14 @@ sap.ui.define([
             });
             this.getView().setModel(newBookModel, "newBook");
 
-            if (!this.pAddBookDialog) {
-
-                this.pAddBookDialog = this.loadFragment({
+            if (!this.oAddBookDialog) {
+                this.oAddBookDialog = await this.loadFragment({
                     name: "project.view.fragments.AddBookDialog"
                 });
             }
 
-            this.pAddBookDialog.then((oDialog) => {
-                this.clearAddBookValidation();
-                oDialog.open();
-            });
+            this.clearAddBookValidation();
+            this.oAddBookDialog.open();
         },
 
         clearAddBookValidation() {
@@ -206,11 +203,12 @@ sap.ui.define([
                 oBookModel.setProperty("/genres", [aGenres[0], ...aSortedGenres]);
             }
 
-            this.byId("addBookDialog").close();
+            this.oAddBookDialog.close();
+
         },
 
         onCancelAddBook() {
-            this.byId("addBookDialog").close();
+            this.oAddBookDialog.close();
         },
 
         onConfirmDelete(oEvent) {
