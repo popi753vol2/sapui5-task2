@@ -151,7 +151,6 @@ sap.ui.define([
 
         onSaveNewBook() {
             const oData = this.oAddBookDialog.getModel("newBook").getData();
-            const oDatePicker = this.byId("bookReleaseDateInput");
             const sId = this.generateBookId();
 
             const sName = oData.Name.trim();
@@ -159,13 +158,16 @@ sap.ui.define([
             const sGenre = oData.Genre.trim();
             const sQuantity = String(oData.AvailableQuantity).trim();
             const iQuantity = Number(sQuantity);
-            const oReleaseDate = oDatePicker.getDateValue();
+            const aReleaseDate = oData.ReleaseDate.split("-");
+            const oReleaseDate = new Date(aReleaseDate[0], aReleaseDate[1] - 1, aReleaseDate[2]);
+
+            const bReleaseDateIsValid = !isNaN(oReleaseDate);
 
             const aValidation = [
                 ["bookNameInput", Boolean(sName), "addBookFieldRequired"],
                 ["bookAuthorInput", Boolean(sAuthor), "addBookFieldRequired"],
                 ["bookGenreInput", Boolean(sGenre), "addBookFieldRequired"],
-                ["bookReleaseDateInput", Boolean(oDatePicker.getValue().trim() && oReleaseDate), "addBookFieldRequired"],
+                ["bookReleaseDateInput", bReleaseDateIsValid, "addBookFieldRequired"],
                 ["bookQuantityInput", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addBookQuantityInvalid"]
             ];
             let bIsValid = true;
