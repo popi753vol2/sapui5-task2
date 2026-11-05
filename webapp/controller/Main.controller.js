@@ -121,7 +121,7 @@ sap.ui.define([
         },
 
         async onAddRecord() {
-            const newBookModel = new JSONModel({
+            const oNewBookModel = new JSONModel({
                 ID: "",
                 Name: "",
                 Author: "",
@@ -135,7 +135,7 @@ sap.ui.define([
                 });
             }
 
-            this.oAddBookDialog.setModel(newBookModel, "newBook");
+            this.oAddBookDialog.setModel(oNewBookModel, "newBook");
             this.clearAddBookValidation();
             this.oAddBookDialog.open();
         },
