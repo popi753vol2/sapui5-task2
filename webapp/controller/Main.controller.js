@@ -15,7 +15,7 @@ sap.ui.define([
         onInit() {
             const aBooks = [
                 {
-                    ID: "B001",
+                    ID: "1",
                     Name: "The Hobbit",
                     Author: "J.R.R. Tolkien",
                     Genre: "Fantasy",
@@ -24,7 +24,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B002",
+                    ID: "2",
                     Name: "Pride and Prejudice",
                     Author: "Jane Austen",
                     Genre: "Romance",
@@ -33,7 +33,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B003",
+                    ID: "3",
                     Name: "1984",
                     Author: "George Orwell",
                     Genre: "Dystopian",
@@ -42,7 +42,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B004",
+                    ID: "4",
                     Name: "The Great Gatsby",
                     Author: "F. Scott Fitzgerald",
                     Genre: "Classic",
@@ -51,7 +51,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B005",
+                    ID: "5",
                     Name: "To Kill a Mockingbird",
                     Author: "Harper Lee",
                     Genre: "Fiction",
@@ -60,7 +60,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B006",
+                    ID: "6",
                     Name: "The Name of the Rose",
                     Author: "Umberto Eco",
                     Genre: "Mystery",
