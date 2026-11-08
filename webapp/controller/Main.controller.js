@@ -173,16 +173,18 @@ sap.ui.define([
                 ["AvailableQuantity", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addBookQuantityInvalid"]
             ];
             const oNewBookModel = this.oAddBookDialog.getModel("newBook");
+            const oValidation = {};
             let bIsValid = true;
 
             aValidation.forEach(([sField, bFieldValid, sErrorKey]) => {
-                oNewBookModel.setProperty(`/validation/${sField}/valueState`,
-                    bFieldValid ? ValueState.None : ValueState.Error);
-                oNewBookModel.setProperty(`/validation/${sField}/valueStateText`,
-                    bFieldValid ? "" : this.getText(sErrorKey));
+                oValidation[sField] = {
+                    valueState: bFieldValid ? ValueState.None : ValueState.Error,
+                    valueStateText: bFieldValid ? "" : this.getText(sErrorKey)
+                };
 
                 bIsValid = bIsValid && bFieldValid;
             });
+            oNewBookModel.setProperty("/validation", oValidation);
 
             if (!bIsValid) {
                 MessageBox.error(this.getText("addBookValidationMessage"));
