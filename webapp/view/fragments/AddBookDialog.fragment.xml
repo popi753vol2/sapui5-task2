@@ -31,7 +31,10 @@
                 <Label id="_IDGenLabel4" text="{i18n>bookReleaseDate}" labelFor="bookReleaseDateInput" required="true" />
                 <DatePicker
                     id="bookReleaseDateInput"
-                    value="{newBook>/ReleaseDate}"
+                    value="{
+                            path: 'newBook>/ReleaseDate',
+                            type: 'sap.ui.model.type.Date'
+                    }"  
                     valueFormat="yyyy-MM-dd"
                     displayFormat="yyyy-MM-dd"
                     valueState="{newBook>/validation/ReleaseDate/valueState}"

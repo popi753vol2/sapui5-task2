@@ -161,10 +161,9 @@ sap.ui.define([
             const sGenre = oData.Genre.trim();
             const sQuantity = String(oData.AvailableQuantity).trim();
             const iQuantity = Number(sQuantity);
-            const aReleaseDate = oData.ReleaseDate.split("-");
-            const oReleaseDate = new Date(aReleaseDate[0], aReleaseDate[1] - 1, aReleaseDate[2]);
+            const oReleaseDate = oData.ReleaseDate;
 
-            const bReleaseDateIsValid = !isNaN(oReleaseDate);
+            const bReleaseDateIsValid = oReleaseDate instanceof Date;
 
             const aValidation = [
                 ["Name", Boolean(sName), "addBookFieldRequired"],
