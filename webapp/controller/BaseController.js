@@ -23,11 +23,9 @@ sap.ui.define([
         },
         
         formatPublishedYear(oReleaseDate) {
-            if (!(oReleaseDate instanceof Date) || Number.isNaN(oReleaseDate.getTime())) {
-                return "Published: unknown";
-            }
-
-            return `Published: ${oReleaseDate.getFullYear()}`;
+            const bDateIsValid = (oReleaseDate instanceof Date) && !Number.isNaN(oReleaseDate.getTime());
+            return `${this.getText("published")}: ${bDateIsValid ? oReleaseDate.getFullYear() : this.getText("unknown")}`;
         }
+        
     });
 });
