@@ -7,9 +7,11 @@ sap.ui.define([
         getModel(sName) {
             return this.getView().getModel(sName);
         },
+
         getText(sKey, aArgs) {
             return this.getOwnerComponent().getModel("i18n").getResourceBundle().getText(sKey, aArgs);
         },
+        
         generateBookId() {
             const aBooks = this.getModel().getProperty("/books") || [];
             const iNextId = aBooks.reduce((iMaxId, oBook) => {
@@ -18,6 +20,14 @@ sap.ui.define([
             }, 0) + 1;
 
             return String(iNextId);
+        },
+        
+        formatPublishedYear(oReleaseDate) {
+            if (!(oReleaseDate instanceof Date) || Number.isNaN(oReleaseDate.getTime())) {
+                return "Published: unknown";
+            }
+
+            return `Published: ${oReleaseDate.getFullYear()}`;
         }
     });
 });

@@ -88,7 +88,7 @@
                             </VBox>
                             <Text id="_IDGenText8" text="{Author}" />
                             <Text id="_IDGenText9" text="{Genre}" />
-                            <Text id="_IDGenText10" text="{path: 'ReleaseDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy-MM-dd' }}" />
+                            <Text id="_IDGenText10" text="{path: 'ReleaseDate', formatter: '.formatPublishedYear'}" />
                             <ObjectNumber id="_IDGenObjectNumber" number="{AvailableQuantity}" />
                             <VBox id="_IDGenVbox1" renderType="Bare">
                                 <Button id="_IDGenButton" text="{i18n>editTitle}" visible="{= !${editMode} }" press=".onHandleAction($event, true)"/>
