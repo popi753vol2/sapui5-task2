@@ -4,15 +4,18 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
-    "sap/m/MessageBox"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox) => {
+    "sap/m/MessageBox",
+    "sap/ui/core/library"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary) => {
     "use strict";
+
+    const ValueState = coreLibrary.ValueState;
 
     return BaseController.extend("project.controller.Main", {
         onInit() {
             const aBooks = [
                 {
-                    ID: "B001",
+                    ID: "1",
                     Name: "The Hobbit",
                     Author: "J.R.R. Tolkien",
                     Genre: "Fantasy",
@@ -21,7 +24,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B002",
+                    ID: "2",
                     Name: "Pride and Prejudice",
                     Author: "Jane Austen",
                     Genre: "Romance",
@@ -30,7 +33,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B003",
+                    ID: "3",
                     Name: "1984",
                     Author: "George Orwell",
                     Genre: "Dystopian",
@@ -39,7 +42,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B004",
+                    ID: "4",
                     Name: "The Great Gatsby",
                     Author: "F. Scott Fitzgerald",
                     Genre: "Classic",
@@ -48,7 +51,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B005",
+                    ID: "5",
                     Name: "To Kill a Mockingbird",
                     Author: "Harper Lee",
                     Genre: "Fiction",
@@ -57,7 +60,7 @@ sap.ui.define([
                     editMode: false
                 },
                 {
-                    ID: "B006",
+                    ID: "6",
                     Name: "The Name of the Rose",
                     Author: "Umberto Eco",
                     Genre: "Mystery",
@@ -85,6 +88,8 @@ sap.ui.define([
             });
 
             this.getView().setModel(oBookModel);
+
+            this.oNewBookModel = new JSONModel();
 
             const oUiModel = new JSONModel({
                 hasSelection: false,
@@ -117,19 +122,102 @@ sap.ui.define([
             oModel.setProperty(sPath + "/editMode", bEdit);
         },
 
-        onAddRecord() {
-            const oModel = this.getModel();
-            const aBooks = oModel.getProperty("/books");
+        async onAddRecord() {
+            if (!this.oAddBookDialog) {
+                this.oAddBookDialog = await this.loadFragment({
+                    name: "project.view.fragments.AddBookDialog"
+                });
+                this.oAddBookDialog.setModel(this.oNewBookModel, "newBook");
+            }
 
-            oModel.setProperty("/books", aBooks.concat({
+            this.oNewBookModel.setData({
                 ID: "",
                 Name: "",
                 Author: "",
                 Genre: "",
-                ReleaseDate: null,
-                AvailableQuantity: null,
+                ReleaseDate: "",
+                AvailableQuantity: NaN,
+                validation: {}
+            });
+            this.clearAddBookValidation();
+            this.oAddBookDialog.open();
+        },
+
+        clearAddBookValidation() {
+            const oValidation = {};
+            ["Name", "Author", "Genre", "ReleaseDate", "AvailableQuantity"].forEach((sField) => {
+                oValidation[sField] = {
+                    valueState: ValueState.None,
+                    valueStateText: ""
+                };
+            });
+            this.oAddBookDialog.getModel("newBook").setProperty("/validation", oValidation);
+        },
+
+        onSaveNewBook() {
+            const oData = this.oAddBookDialog.getModel("newBook").getData();
+            const sId = this.generateBookId();
+
+            const sName = oData.Name.trim();
+            const sAuthor = oData.Author.trim();
+            const sGenre = oData.Genre.trim();
+            const sQuantity = String(oData.AvailableQuantity).trim();
+            const iQuantity = Number(sQuantity);
+            const oReleaseDate = oData.ReleaseDate;
+
+            const bReleaseDateIsValid = oReleaseDate instanceof Date;
+
+            const aValidation = [
+                ["Name", Boolean(sName), "addBookFieldRequired"],
+                ["Author", Boolean(sAuthor), "addBookFieldRequired"],
+                ["Genre", Boolean(sGenre), "addBookFieldRequired"],
+                ["ReleaseDate", bReleaseDateIsValid, "addBookFieldRequired"],
+                ["AvailableQuantity", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addBookQuantityInvalid"]
+            ];
+            const oNewBookModel = this.oAddBookDialog.getModel("newBook");
+            const oValidation = {};
+            let bIsValid = true;
+
+            aValidation.forEach(([sField, bFieldValid, sErrorKey]) => {
+                oValidation[sField] = {
+                    valueState: bFieldValid ? ValueState.None : ValueState.Error,
+                    valueStateText: bFieldValid ? "" : this.getText(sErrorKey)
+                };
+
+                bIsValid = bIsValid && bFieldValid;
+            });
+            oNewBookModel.setProperty("/validation", oValidation);
+
+            if (!bIsValid) {
+                MessageBox.error(this.getText("addBookValidationMessage"));
+                return;
+            }
+
+            const oBookModel = this.getModel();
+            const aBooks = oBookModel.getProperty("/books");
+            oBookModel.setProperty("/books", aBooks.concat({
+                ID: sId,
+                Name: sName,
+                Author: sAuthor,
+                Genre: sGenre,
+                ReleaseDate: oReleaseDate,
+                AvailableQuantity: iQuantity,
                 editMode: false
             }));
+
+            const aGenres = oBookModel.getProperty("/genres");
+            if (!aGenres.some((oGenre) => oGenre.key === sGenre)) {
+                const aSortedGenres = aGenres.slice(1).concat({ key: sGenre, text: sGenre })
+                    .sort((oFirst, oSecond) => oFirst.text.localeCompare(oSecond.text));
+                oBookModel.setProperty("/genres", [aGenres[0], ...aSortedGenres]);
+            }
+
+            this.oAddBookDialog.close();
+
+        },
+
+        onCancelAddBook() {
+            this.oAddBookDialog.close();
         },
 
         onConfirmDelete(oEvent) {

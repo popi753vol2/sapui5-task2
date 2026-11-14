@@ -9,6 +9,15 @@ sap.ui.define([
         },
         getText(sKey, aArgs) {
             return this.getOwnerComponent().getModel("i18n").getResourceBundle().getText(sKey, aArgs);
+        },
+        generateBookId() {
+            const aBooks = this.getModel().getProperty("/books") || [];
+            const iNextId = aBooks.reduce((iMaxId, oBook) => {
+                const iBookId = Number.parseInt(oBook.ID, 10);
+                return  Math.max(iMaxId, iBookId);
+            }, 0) + 1;
+
+            return String(iNextId);
         }
     });
 });
