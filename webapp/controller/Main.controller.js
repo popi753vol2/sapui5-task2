@@ -89,6 +89,8 @@ sap.ui.define([
 
             this.getView().setModel(oBookModel);
 
+            this.oNewBookModel = new JSONModel();
+
             const oUiModel = new JSONModel({
                 hasSelection: false,
                 filters: {
@@ -121,7 +123,14 @@ sap.ui.define([
         },
 
         async onAddRecord() {
-            const oNewBookModel = new JSONModel({
+            if (!this.oAddBookDialog) {
+                this.oAddBookDialog = await this.loadFragment({
+                    name: "project.view.fragments.AddBookDialog"
+                });
+                this.oAddBookDialog.setModel(this.oNewBookModel, "newBook");
+            }
+
+            this.oNewBookModel.setData({
                 ID: "",
                 Name: "",
                 Author: "",
@@ -130,13 +139,6 @@ sap.ui.define([
                 AvailableQuantity: NaN,
                 validation: {}
             });
-            if (!this.oAddBookDialog) {
-                this.oAddBookDialog = await this.loadFragment({
-                    name: "project.view.fragments.AddBookDialog"
-                });
-            }
-
-            this.oAddBookDialog.setModel(oNewBookModel, "newBook");
             this.clearAddBookValidation();
             this.oAddBookDialog.open();
         },
