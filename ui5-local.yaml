@@ -29,6 +29,21 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertErrors: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        mountPath: /
+        watch: true
+        services:
+          - urlPath: /odata/v2
+            metadataPath: ./webapp/localService/metadataV2.xml
+            mockdataPath: ./webapp/localService/dataV2
+            generateMockData: true
+          - urlPath: /odata/v4
+            metadataPath: ./webapp/localService/metadataV4.xml
+            mockdataPath: ./webapp/localService/dataV4
+            generateMockData: true
+        annotations: []
 builder:
   resources:
     excludes:

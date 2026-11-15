@@ -1,0 +1,42 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Table  
+        id="productsV4Table" 
+        items="{path: 'odataV4>/Products', parameters: {expand: 'Categories,Supplier,ProductDetail'}}"
+        noDataText="{i18n>booksNoData}">
+
+        <columns>
+            <Column id="_IDGenColumn"><Text id="_IDGenText26" text="{i18n>id}" /></Column>
+            <Column id="_IDGenColumn15"><Text id="_IDGenText27" text="{i18n>name}" /></Column>
+            <Column id="_IDGenColumn16"><Text id="_IDGenText28" text="{i18n>description}" /></Column>
+            <Column id="_IDGenColumn17"><Text id="_IDGenText29" text="{i18n>releaseDate}" /></Column>
+            <Column id="_IDGenColumn18"><Text id="_IDGenText30" text="{i18n>discontinuedDate}" /></Column>
+            <Column id="_IDGenColumn19"><Text id="_IDGenText31" text="{i18n>rating}" /></Column>
+            <Column id="_IDGenColumn20"><Text id="_IDGenText32" text="{i18n>price}" /></Column>
+             <Column id="_IDGenColumn1252"><Text id="_IDGenText1912223" text="{i18n>category}" /></Column>
+            <Column id="_IDGenColumn15213"><Text id="_IDGenText192123" text="{i18n>supplier}" /></Column>
+            <Column id="_IDGenColumn152131"><Text id="_IDGenText1921123" text="{i18n>detail}" /></Column>
+
+        </columns>
+        <items>
+            <ColumnListItem id="_IDGenColumnListItem2">
+                <cells>
+                    <Text id="_IDGenText33" text="{odataV4>ID}" />
+                    <Text id="_IDGenText34" text="{odataV4>Name}" />
+                    <Text id="_IDGenText35" text="{odataV4>Description}" />
+                    <Text id="_IDGenText36" text="{path: 'odataV4>ReleaseDate', formatter: '.formatDate', targetType:'any'}" />
+                    <Text id="_IDGenText37" text="{path: 'odataV4>DiscontinuedDate', formatter: '.formatDate', targetType:'any'}" />
+                    <Text id="_IDGenText38" text="{odataV4>Rating}" />
+                    <ObjectNumber id="_IDGenObjectNumber2" number="{odataV4>Price}" />
+                    <VBox id="_IDGenVBoxCategories" items="{odataV4>Categories}">
+                            <Text id="_IDGenTextCategoryName" text="{odataV4>Name}" />
+                    </VBox>
+                    <Text id="_IDGenText40" text="{odataV4>Supplier/Name}" />
+                    <Text id="_IDGenText41" text="{odataV4>ProductDetail/Details}" />
+
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</core:FragmentDefinition>
