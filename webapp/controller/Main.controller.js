@@ -89,8 +89,6 @@ sap.ui.define([
 
             this.getView().setModel(oBookModel);
 
-            this.oNewBookModel = new JSONModel();
-
             const oUiModel = new JSONModel({
                 hasSelection: false,
                 filters: {
@@ -124,6 +122,7 @@ sap.ui.define([
 
         async onAddRecord() {
             if (!this.oAddBookDialog) {
+                this.oNewBookModel = new JSONModel();
                 this.oAddBookDialog = await this.loadFragment({
                     name: "project.view.fragments.AddBookDialog"
                 });
