@@ -20,11 +20,6 @@ sap.ui.define([
             }, 0) + 1;
 
             return String(iNextId);
-        },
-        
-        formatPublishedYear(oReleaseDate) {
-            const bDateIsValid = (oReleaseDate instanceof Date) && !Number.isNaN(oReleaseDate.getTime());
-            return `${this.getText("published")}: ${bDateIsValid ? oReleaseDate.getFullYear() : this.getText("unknown")}`;
         }
         
     });

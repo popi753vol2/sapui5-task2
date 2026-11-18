@@ -5,8 +5,9 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-    "sap/ui/core/library"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary) => {
+    "sap/ui/core/library",
+    "project/helper/Formatter"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary, Formatter) => {
     "use strict";
 
     const ValueState = coreLibrary.ValueState;
@@ -98,6 +99,10 @@ sap.ui.define([
             });
 
             this.getView().setModel(oUiModel, "ui");
+        },
+
+        formatPublishedYear(oReleaseDate) {
+            return Formatter.formatPublishedYear.call(this, oReleaseDate);
         },
 
         onSelectionChange(oEvent) {
