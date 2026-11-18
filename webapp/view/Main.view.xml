@@ -11,7 +11,7 @@
                     </IconTabFilter>
 
                     <IconTabFilter id="odataV2Tab" text="oData v2 Model" key="odataV2Model">
-                        <core:Fragment fragmentName="project.view.fragments.ODataV2Tab" type="XML"/>
+                        <mvc:XMLView id="odataV2View" viewName="project.view.ODataV2" />
                     </IconTabFilter>
 
                     <IconTabFilter id="odataV4Tab" text="oData v4 Model" key="odataV4Model">

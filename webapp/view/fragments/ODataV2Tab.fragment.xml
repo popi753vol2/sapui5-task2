@@ -3,8 +3,23 @@
     xmlns="sap.m">
     <Table
         id="productsV2Table"
+        mode="MultiSelect"
+        selectionChange=".onSelectionChange"
         items="{path: 'odataV2>/Products', parameters: {expand: 'Category,Supplier'}}"
         noDataText="{i18n>booksNoData}">
+
+        <headerToolbar>
+            <Toolbar id="_IDGenToolbar1">
+                <Title id="_IDGenTitle1" text="{i18n>booksTableTitle}" />
+
+                <Button id="deleteRecordButtonV2"
+                    text="{i18n>deleteRecord}"
+                    icon="sap-icon://delete"
+                    type="Reject"
+                    enabled="{= ${odataV2Ui>/hasSelection} &amp;&amp; !${odataV2Ui>/isDeleting} }"
+                    press=".onDeleteRecord" />
+            </Toolbar>
+        </headerToolbar>
 
         <columns>
             <Column id="_IDGenColumn8"><Text id="_IDGenText11" text="{i18n>id}" /></Column>
