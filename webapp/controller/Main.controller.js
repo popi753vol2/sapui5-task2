@@ -13,6 +13,8 @@ sap.ui.define([
     const ValueState = coreLibrary.ValueState;
 
     return BaseController.extend("project.controller.Main", {
+        formatter: Formatter,
+
         onInit() {
             const aBooks = [
                 {
@@ -99,10 +101,6 @@ sap.ui.define([
             });
 
             this.getView().setModel(oUiModel, "ui");
-        },
-
-        formatPublishedYear(oReleaseDate) {
-            return Formatter.formatPublishedYear.call(this, oReleaseDate);
         },
 
         onSelectionChange(oEvent) {
