@@ -5,13 +5,16 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-    "sap/ui/core/library"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary) => {
+    "sap/ui/core/library",
+    "project/helper/Formatter"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary, Formatter) => {
     "use strict";
 
     const ValueState = coreLibrary.ValueState;
 
     return BaseController.extend("project.controller.Main", {
+        formatter: Formatter,
+
         onInit() {
             const aBooks = [
                 {

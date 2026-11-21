@@ -7,9 +7,11 @@ sap.ui.define([
         getModel(sName) {
             return this.getView().getModel(sName);
         },
+
         getText(sKey, aArgs) {
             return this.getOwnerComponent().getModel("i18n").getResourceBundle().getText(sKey, aArgs);
         },
+        
         generateBookId() {
             const aBooks = this.getModel().getProperty("/books") || [];
             const iNextId = aBooks.reduce((iMaxId, oBook) => {
@@ -19,5 +21,6 @@ sap.ui.define([
 
             return String(iNextId);
         }
+        
     });
 });
