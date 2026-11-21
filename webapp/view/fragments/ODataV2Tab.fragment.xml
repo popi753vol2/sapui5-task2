@@ -4,7 +4,7 @@
     <Table
         id="productsV2Table"
         items="{path: 'odataV2>/Products', parameters: {expand: 'Category,Supplier'}}"
-        noDataText="{i18n>booksNoData}">
+        noDataText="{i18n>ProductsNoData}">
 
         <columns>
             <Column id="_IDGenColumn8"><Text id="_IDGenText11" text="{i18n>id}" /></Column>
