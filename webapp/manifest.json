@@ -10,6 +10,24 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "resources": "resources.json",
+    "dataSources": {
+      "mainServiceV2": {
+        "uri": "/odata/v2/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/metadataV2.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "mainServiceV4": {
+        "uri": "/odata/v4/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/metadataV4.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    },
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.32.0",
@@ -46,6 +64,21 @@
       "cozy": true
     },
     "models": {
+      "odataV2": {
+        "dataSource": "mainServiceV2",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "odataV4": {
+        "dataSource": "mainServiceV4",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
