@@ -20,27 +20,6 @@ sap.ui.define([
             }, 0) + 1;
 
             return String(iNextId);
-        },
-        
-        formatPublishedYear(oReleaseDate) {
-            const bDateIsValid = (oReleaseDate instanceof Date) && !Number.isNaN(oReleaseDate.getTime());
-            return `${this.getText("published")}: ${bDateIsValid ? oReleaseDate.getFullYear() : this.getText("unknown")}`;
-        },
-
-        formatDate(oDate) {
-            let oParsedDate;
-            if (oDate instanceof Date) {
-                oParsedDate = oDate;
-            } else if (typeof oDate === "string") {
-                oParsedDate = new Date(oDate);
-            } else {
-                oParsedDate = null;
-            }
-
-            const bDateIsValid = oParsedDate instanceof Date && !Number.isNaN(oParsedDate.getTime());
-            return bDateIsValid
-                ? oParsedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-                : this.getText("unknown");
         }
         
     });

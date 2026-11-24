@@ -25,8 +25,8 @@
                     <Text id="_IDGenText33" text="{odataV4>ID}" />
                     <Text id="_IDGenText34" text="{odataV4>Name}" />
                     <Text id="_IDGenText35" text="{odataV4>Description}" />
-                    <Text id="_IDGenText36" text="{path: 'odataV4>ReleaseDate', formatter: '.formatDate', targetType:'any'}" />
-                    <Text id="_IDGenText37" text="{path: 'odataV4>DiscontinuedDate', formatter: '.formatDate', targetType:'any'}" />
+                    <Text id="_IDGenText36" text="{path: 'odataV4>ReleaseDate', formatter: '.formatter.formatDate', targetType:'any'}" />
+                    <Text id="_IDGenText37" text="{path: 'odataV4>DiscontinuedDate', formatter: '.formatter.formatDate', targetType:'any'}" />
                     <Text id="_IDGenText38" text="{odataV4>Rating}" />
                     <ObjectNumber id="_IDGenObjectNumber2" number="{odataV4>Price}" />
                     <VBox id="_IDGenVBoxCategories" items="{odataV4>Categories}">

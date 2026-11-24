@@ -5,13 +5,16 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-    "sap/ui/core/library"
-], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary) => {
+    "sap/ui/core/library",
+    "project/helper/Formatter"
+], (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, coreLibrary, Formatter) => {
     "use strict";
 
     const ValueState = coreLibrary.ValueState;
 
     return BaseController.extend("project.controller.Main", {
+        formatter: Formatter,
+
         onInit() {
             const aBooks = [
                 {
@@ -121,7 +124,15 @@ sap.ui.define([
         },
 
         async onAddRecord() {
-            const oNewBookModel = new JSONModel({
+            if (!this.oAddBookDialog) {
+                this.oNewBookModel = new JSONModel();
+                this.oAddBookDialog = await this.loadFragment({
+                    name: "project.view.fragments.AddBookDialog"
+                });
+                this.oAddBookDialog.setModel(this.oNewBookModel, "newBook");
+            }
+
+            this.oNewBookModel.setData({
                 ID: "",
                 Name: "",
                 Author: "",
@@ -130,13 +141,6 @@ sap.ui.define([
                 AvailableQuantity: NaN,
                 validation: {}
             });
-            if (!this.oAddBookDialog) {
-                this.oAddBookDialog = await this.loadFragment({
-                    name: "project.view.fragments.AddBookDialog"
-                });
-            }
-
-            this.oAddBookDialog.setModel(oNewBookModel, "newBook");
             this.clearAddBookValidation();
             this.oAddBookDialog.open();
         },
