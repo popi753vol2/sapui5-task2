@@ -1,0 +1,39 @@
+<mvc:View
+    controllerName="project.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Table
+        id="productsV2Table"
+        items="{path: 'odataV2>/Products', parameters: {expand: 'Category,Supplier'}}"
+        noDataText="{i18n>ProductsNoData}">
+
+        <columns>
+            <Column id="_IDGenColumn8"><Text id="_IDGenText11" text="{i18n>id}" /></Column>
+            <Column id="_IDGenColumn9"><Text id="_IDGenText13" text="{i18n>name}" /></Column>
+            <Column id="_IDGenColumn10"><Text id="_IDGenText14" text="{i18n>description}" /></Column>
+            <Column id="_IDGenColumn11"><Text id="_IDGenText15" text="{i18n>releaseDate}" /></Column>
+            <Column id="_IDGenColumn12"><Text id="_IDGenText16" text="{i18n>discontinuedDate}" /></Column>
+            <Column id="_IDGenColumn13"><Text id="_IDGenText17" text="{i18n>rating}" /></Column>
+            <Column id="_IDGenColumn14"><Text id="_IDGenText18" text="{i18n>price}" /></Column>
+            <Column id="_IDGenColumn152"><Text id="_IDGenText191223" text="{i18n>category}" /></Column>
+            <Column id="_IDGenColumn1513"><Text id="_IDGenText19123" text="{i18n>supplier}" /></Column>
+
+        </columns>
+        <items>
+            <ColumnListItem id="_IDGenColumnListItem1">
+                <cells>
+                    <Text id="_IDGenText19" text="{odataV2>ID}" />
+                    <Text id="_IDGenText20" text="{odataV2>Name}" />
+                    <Text id="_IDGenText21" text="{odataV2>Description}" />
+                    <Text id="_IDGenText22" text="{path: 'odataV2>ReleaseDate', type: 'sap.ui.model.type.Date'}" />
+                    <Text id="_IDGenText23" text="{path: 'odataV2>DiscontinuedDate', type: 'sap.ui.model.type.Date'}" />
+                    <Text id="_IDGenText24" text="{odataV2>Rating}" />
+                    <ObjectNumber id="_IDGenObjectNumber1" number="{odataV2>Price}" />
+                    <Text id="_IDGenText25" text="{odataV2>Category/Name}" />
+                    <Text id="_IDGenText2213" text="{odataV2>Supplier/Name}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</mvc:View>
