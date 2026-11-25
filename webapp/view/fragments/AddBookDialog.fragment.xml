@@ -7,28 +7,28 @@
         contentWidth="30rem">
         <content>
             <VBox id="_IDGenVBox2" class="sapUiSmallMargin">
-                <Label id="_IDGenLabel1" text="{i18n>bookName}" labelFor="bookNameInput" required="true" />
+                <Label id="_IDGenLabel1" text="{i18n>name}" labelFor="bookNameInput" required="true" />
                 <Input
                     id="bookNameInput"
                     value="{newBook>/Name}"
                     valueState="{newBook>/validation/Name/valueState}"
                     valueStateText="{newBook>/validation/Name/valueStateText}"
                     required="true" />
-                <Label id="_IDGenLabel2" text="{i18n>bookAuthor}" labelFor="bookAuthorInput" required="true" />
+                <Label id="_IDGenLabel2" text="{i18n>author}" labelFor="bookAuthorInput" required="true" />
                 <Input
                     id="bookAuthorInput"
                     value="{newBook>/Author}"
                     valueState="{newBook>/validation/Author/valueState}"
                     valueStateText="{newBook>/validation/Author/valueStateText}"
                     required="true" />
-                <Label id="_IDGenLabel3" text="{i18n>bookGenre}" labelFor="bookGenreInput" required="true" />
+                <Label id="_IDGenLabel3" text="{i18n>genre}" labelFor="bookGenreInput" required="true" />
                 <Input
                     id="bookGenreInput"
                     value="{newBook>/Genre}"
                     valueState="{newBook>/validation/Genre/valueState}"
                     valueStateText="{newBook>/validation/Genre/valueStateText}"
                     required="true" />
-                <Label id="_IDGenLabel4" text="{i18n>bookReleaseDate}" labelFor="bookReleaseDateInput" required="true" />
+                <Label id="_IDGenLabel4" text="{i18n>releaseDate}" labelFor="bookReleaseDateInput" required="true" />
                 <DatePicker
                     id="bookReleaseDateInput"
                     value="{
@@ -40,7 +40,7 @@
                     valueState="{newBook>/validation/ReleaseDate/valueState}"
                     valueStateText="{newBook>/validation/ReleaseDate/valueStateText}"
                     required="true" />
-                <Label id="_IDGenLabel5" text="{i18n>bookAvailableQuantity}" labelFor="bookQuantityInput" required="true" />
+                <Label id="_IDGenLabel5" text="{i18n>availableQuantity}" labelFor="bookQuantityInput" required="true" />
                 <Input
                     id="bookQuantityInput"
                     value="{newBook>/AvailableQuantity}"
@@ -52,7 +52,7 @@
         </content>
         <beginButton>
             <Button id="_IDGenButton1"
-                text="{i18n>addBookButton}"
+                text="{i18n>addButton}"
                 type="Emphasized"
                 press=".onSaveNewBook" />
         </beginButton>
