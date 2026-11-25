@@ -1,8 +1,0 @@
-<mvc:View
-    controllerName="project.controller.ODataV2"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core">
-    <core:Fragment
-        fragmentName="project.view.fragments.ODataV2Tab"
-        type="XML" />
-</mvc:View>

@@ -1,10 +1,12 @@
-<core:FragmentDefinition
+<mvc:View
+    controllerName="project.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
     <Table  
         id="productsV4Table" 
         items="{path: 'odataV4>/Products', parameters: {expand: 'Categories,Supplier,ProductDetail'}}"
-        noDataText="{i18n>booksNoData}">
+        noDataText="{i18n>ProductsNoData}">
 
         <columns>
             <Column id="_IDGenColumn"><Text id="_IDGenText26" text="{i18n>id}" /></Column>
@@ -25,8 +27,8 @@
                     <Text id="_IDGenText33" text="{odataV4>ID}" />
                     <Text id="_IDGenText34" text="{odataV4>Name}" />
                     <Text id="_IDGenText35" text="{odataV4>Description}" />
-                    <Text id="_IDGenText36" text="{path: 'odataV4>ReleaseDate', formatter: '.formatDate', targetType:'any'}" />
-                    <Text id="_IDGenText37" text="{path: 'odataV4>DiscontinuedDate', formatter: '.formatDate', targetType:'any'}" />
+                    <Text id="_IDGenText36" text="{path: 'odataV4>ReleaseDate', formatter: '.formatter.formatDate', targetType:'any'}" />
+                    <Text id="_IDGenText37" text="{path: 'odataV4>DiscontinuedDate', formatter: '.formatter.formatDate', targetType:'any'}" />
                     <Text id="_IDGenText38" text="{odataV4>Rating}" />
                     <ObjectNumber id="_IDGenObjectNumber2" number="{odataV4>Price}" />
                     <VBox id="_IDGenVBoxCategories" items="{odataV4>Categories}">
@@ -39,4 +41,4 @@
             </ColumnListItem>
         </items>
     </Table>
-</core:FragmentDefinition>
+</mvc:View>

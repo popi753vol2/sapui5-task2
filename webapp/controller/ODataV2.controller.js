@@ -1,11 +1,13 @@
 sap.ui.define([
     "project/controller/BaseController",
+    "project/controller/AddProductDialog.controller",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast"
 ],
-    (BaseController, JSONModel, MessageBox, MessageToast) => {
+    (BaseController, AddProductDialog, JSONModel, MessageBox, MessageToast) => {
         return BaseController.extend("project.controller.ODataV2", {
+
             onInit() {
                 this.getView().setModel(new JSONModel({
                     hasSelection: false,
@@ -49,6 +51,7 @@ sap.ui.define([
                 if (!iSelectedLength) {
                     oModelUi.setProperty("/isDeleting", false);
                     this.updateSelectionState(oTable);
+                    MessageToast.show(this.getText("noSelectionMessage"));
                     return;
                 }
 
@@ -103,6 +106,14 @@ sap.ui.define([
                     "/hasSelection",
                     aSelectedContexts.length > 0
                 );
+            },
+            async openDialog() {
+                if (!this._addProductDialog) {
+                    this._addProductDialog = AddProductDialog.create(this.getView());
+                }
+
+                await this._addProductDialog.open();
             }
+
         });
     });

@@ -6,16 +6,16 @@
         <content>
             <IconTabBar id="mainTabBar" class="sapUiResponsivePadding--header">
                 <items>
-                    <IconTabFilter id="jsonModelTab" text="JSON Model" key="jsonModel">
-                        <core:Fragment fragmentName="project.view.fragments.JsonModelTab" type="XML"/>
-                    </IconTabFilter>
-
                     <IconTabFilter id="odataV2Tab" text="oData v2 Model" key="odataV2Model">
-                        <mvc:XMLView id="odataV2View" viewName="project.view.ODataV2" />
+                        <mvc:XMLView id="odataV2View" viewName="project.view.ODataV2Tab" />
                     </IconTabFilter>
 
                     <IconTabFilter id="odataV4Tab" text="oData v4 Model" key="odataV4Model">
-                        <core:Fragment fragmentName="project.view.fragments.ODataV4Tab" type="XML"/>
+                        <mvc:XMLView id="odataV4View" viewName="project.view.ODataV4Tab" />
+                    </IconTabFilter>
+                    
+                    <IconTabFilter id="jsonModelTab" text="JSON Model" key="jsonModel">
+                        <mvc:XMLView id="jsonView" viewName="project.view.JSONTab" />
                     </IconTabFilter>
                 </items>
             </IconTabBar>
