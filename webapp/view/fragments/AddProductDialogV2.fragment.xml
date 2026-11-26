@@ -9,75 +9,75 @@
                 <Label id="_IDGenLabel"  text="{i18n>name}" labelFor="productNameInput" required="true" />
                 <Input id="_IDGenInput1"
                     
-                    value="{newProduct>/Name}"
-                    valueState="{newProduct>/validation/Name/valueState}"
-                    valueStateText="{newProduct>/validation/Name/valueStateText}"
+                    value="{odataV2>Name}"
+                    valueState="{odataV2Ui>/validation/Name/valueState}"
+                    valueStateText="{odataV2Ui>/validation/Name/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel6"  text="{i18n>description}" labelFor="productDescriptionInput" required="true" />
                 <Input id="_IDGenInput2"
                     
-                    value="{newProduct>/Description}"
-                    valueState="{newProduct>/validation/Description/valueState}"
-                    valueStateText="{newProduct>/validation/Description/valueStateText}"
+                    value="{odataV2>Description}"
+                    valueState="{odataV2Ui>/validation/Description/valueState}"
+                    valueStateText="{odataV2Ui>/validation/Description/valueStateText}"
                     required="true" />
                
                 <Label id="_IDGenLabel8"  text="{i18n>releaseDate}" labelFor="productReleaseDateInput" required="true" />
                 <DatePicker id="_IDGenDatePicker"
                     
                     value="{
-                            path: 'newProduct>/ReleaseDate',
+                            path: 'odataV2>ReleaseDate',
                             type: 'sap.ui.model.type.Date'
                     }"  
                     valueFormat="yyyy-MM-dd"
                     displayFormat="yyyy-MM-dd"
-                    valueState="{newProduct>/validation/ReleaseDate/valueState}"
-                    valueStateText="{newProduct>/validation/ReleaseDate/valueStateText}"
+                    valueState="{odataV2Ui>/validation/ReleaseDate/valueState}"
+                    valueStateText="{odataV2Ui>/validation/ReleaseDate/valueStateText}"
                     required="true" />
                 
                  <Label id="_IDGenLabel81"  text="{i18n>discontinuedDate}" labelFor="productDiscontinuedDateInput" required="true" />
                 <DatePicker id="_IDGenDiscontinuedDatePicker"
                     
                     value="{
-                            path: 'newProduct>/DiscontinuedDate',
+                            path: 'odataV2>DiscontinuedDate',
                             type: 'sap.ui.model.type.Date'
                     }"  
                     valueFormat="yyyy-MM-dd"
                     displayFormat="yyyy-MM-dd"
-                    valueState="{newProduct>/validation/DiscontinuedDate/valueState}"
-                    valueStateText="{newProduct>/validation/DiscontinuedDate/valueStateText}"
+                    valueState="{odataV2Ui>/validation/DiscontinuedDate/valueState}"
+                    valueStateText="{odataV2Ui>/validation/DiscontinuedDate/valueStateText}"
                     required="true" />
                     
                 <Label id="_IDGenLabel9"  text="{i18n>rating}" labelFor="productRatingInput" required="true" />
                 <Input id="_IDGenInput4"
                     
-                    value="{newProduct>/Rating}"
+                    value="{odataV2>Rating}"
                     type="Number"
-                    valueState="{newProduct>/validation/Rating/valueState}"
-                    valueStateText="{newProduct>/validation/Rating/valueStateText}"
+                    valueState="{odataV2Ui>/validation/Rating/valueState}"
+                    valueStateText="{odataV2Ui>/validation/Rating/valueStateText}"
                     required="true" />
 
                     <Label id="_IDGenLabe20"  text="{i18n>price}" labelFor="productPriceInput" required="true" />
                 <Input id="_IDGenInput5"
-                    value="{newProduct>/Price}"
+                    value="{odataV2>Price}"
                     type="Number"
-                    valueState="{newProduct>/validation/Price/valueState}"
-                    valueStateText="{newProduct>/validation/Price/valueStateText}"
+                    valueState="{odataV2Ui>/validation/Price/valueState}"
+                    valueStateText="{odataV2Ui>/validation/Price/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel21" text="{i18n>category}" labelFor="productCategorySelect" required="true" />
                 <Select id="productCategorySelect"
                     items="{odataV2>/Categories}"
-                    selectedKey="{newProduct>/Category}"
-                    valueState="{newProduct>/validation/Category/valueState}"
-                    valueStateText="{newProduct>/validation/Category/valueStateText}"
+                    selectedKey="{odataV2Ui>/selectedCategoryId}"
+                    valueState="{odataV2Ui>/validation/Category/valueState}"
+                    valueStateText="{odataV2Ui>/validation/Category/valueStateText}"
                     forceSelection="false">
                     <core:Item id="_IDGenItem2" key="{odataV2>ID}" text="{odataV2>Name}" />
                 </Select>
                 <Label id="_IDGenLabel213" text="{i18n>supplier}" labelFor="productSupplierSelect" required="true" />
                 <Select id="productSupplierSelect"
                     items="{odataV2>/Suppliers}"
-                    selectedKey="{newProduct>/Supplier}"
-                    valueState="{newProduct>/validation/Supplier/valueState}"
-                    valueStateText="{newProduct>/validation/Supplier/valueStateText}"
+                    selectedKey="{odataV2Ui>/selectedSupplierId}"
+                    valueState="{odataV2Ui>/validation/Supplier/valueState}"
+                    valueStateText="{odataV2Ui>/validation/Supplier/valueStateText}"
                     forceSelection="false">
                     <core:Item id="_IDGenItem3" key="{odataV2>ID}" text="{odataV2>Name}" />
                 </Select>
