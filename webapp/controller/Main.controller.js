@@ -170,11 +170,11 @@ sap.ui.define([
             const bReleaseDateIsValid = oReleaseDate instanceof Date;
 
             const aValidation = [
-                ["Name", Boolean(sName), "addFieldRequired"],
-                ["Author", Boolean(sAuthor), "addFieldRequired"],
-                ["Genre", Boolean(sGenre), "addFieldRequired"],
-                ["ReleaseDate", bReleaseDateIsValid, "addFieldRequired"],
-                ["AvailableQuantity", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "addQuantityInvalid"]
+                ["Name", Boolean(sName), "fieldRequired"],
+                ["Author", Boolean(sAuthor), "fieldRequired"],
+                ["Genre", Boolean(sGenre), "fieldRequired"],
+                ["ReleaseDate", bReleaseDateIsValid, "fieldRequired"],
+                ["AvailableQuantity", Boolean(sQuantity) && Number.isInteger(iQuantity) && iQuantity >= 0, "quantityInvalid"]
             ];
             const oNewBookModel = this.oAddBookDialog.getModel("newBook");
             const oValidation = {};
@@ -191,7 +191,7 @@ sap.ui.define([
             oNewBookModel.setProperty("/validation", oValidation);
 
             if (!bIsValid) {
-                MessageBox.error(this.getText("addValidationMessage", [this.getText("book")]));
+                MessageBox.error(this.getText("saveValidationMessage", [this.getText("book")]));
                 return;
             }
 

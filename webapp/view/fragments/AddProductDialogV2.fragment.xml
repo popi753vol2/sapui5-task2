@@ -87,12 +87,12 @@
             <Button id="_IDGenButton3" 
                 text="{i18n>saveButton}"
                 type="Emphasized"
-                press=".onSaveNewProduct" />
+                press=".onSaveProduct" />
         </beginButton>
         <endButton>
             <Button id="_IDGenButton4" 
                 text="{i18n>cancelButton}"
-                press=".onCancelAddProduct" />
+                press=".onCancelProduct" />
         </endButton>
     </Dialog>
 </core:FragmentDefinition>
