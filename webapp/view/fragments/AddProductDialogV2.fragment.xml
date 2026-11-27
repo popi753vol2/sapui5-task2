@@ -1,0 +1,98 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Dialog id="_IDGenDialog1"
+        title="{i18n>addProductDialogTitle}"
+        contentWidth="30rem">
+        <content>
+            <VBox id="_IDGenVBox1"  class="sapUiSmallMargin">
+                <Label id="_IDGenLabel"  text="{i18n>name}" labelFor="productNameInput" required="true" />
+                <Input id="_IDGenInput1"
+                    
+                    value="{odataV2>Name}"
+                    valueState="{odataV2DialogUi>/validation/Name/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Name/valueStateText}"
+                    required="true" />
+                <Label id="_IDGenLabel6"  text="{i18n>description}" labelFor="productDescriptionInput" required="true" />
+                <Input id="_IDGenInput2"
+                    
+                    value="{odataV2>Description}"
+                    valueState="{odataV2DialogUi>/validation/Description/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Description/valueStateText}"
+                    required="true" />
+               
+                <Label id="_IDGenLabel8"  text="{i18n>releaseDate}" labelFor="productReleaseDateInput" required="true" />
+                <DatePicker id="_IDGenDatePicker"
+                    
+                    value="{
+                            path: 'odataV2>ReleaseDate',
+                            type: 'sap.ui.model.type.Date'
+                    }"  
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="yyyy-MM-dd"
+                    valueState="{odataV2DialogUi>/validation/ReleaseDate/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/ReleaseDate/valueStateText}"
+                    required="true" />
+                
+                 <Label id="_IDGenLabel81"  text="{i18n>discontinuedDate}" labelFor="productDiscontinuedDateInput" required="true" />
+                <DatePicker id="_IDGenDiscontinuedDatePicker"
+                    
+                    value="{
+                            path: 'odataV2>DiscontinuedDate',
+                            type: 'sap.ui.model.type.Date'
+                    }"  
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="yyyy-MM-dd"
+                    valueState="{odataV2DialogUi>/validation/DiscontinuedDate/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/DiscontinuedDate/valueStateText}"
+                    required="true" />
+                    
+                <Label id="_IDGenLabel9"  text="{i18n>rating}" labelFor="productRatingInput" required="true" />
+                <Input id="_IDGenInput4"
+                    
+                    value="{odataV2>Rating}"
+                    type="Number"
+                    valueState="{odataV2DialogUi>/validation/Rating/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Rating/valueStateText}"
+                    required="true" />
+
+                    <Label id="_IDGenLabe20"  text="{i18n>price}" labelFor="productPriceInput" required="true" />
+                <Input id="_IDGenInput5"
+                    value="{odataV2>Price}"
+                    type="Number"
+                    valueState="{odataV2DialogUi>/validation/Price/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Price/valueStateText}"
+                    required="true" />
+                <Label id="_IDGenLabel21" text="{i18n>category}" labelFor="productCategorySelect" required="true" />
+                <Select id="productCategorySelect"
+                    items="{odataV2>/Categories}"
+                    selectedKey="{odataV2DialogUi>/selectedCategoryId}"
+                    valueState="{odataV2DialogUi>/validation/Category/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Category/valueStateText}"
+                    forceSelection="false">
+                    <core:Item id="_IDGenItem2" key="{odataV2>ID}" text="{odataV2>Name}" />
+                </Select>
+                <Label id="_IDGenLabel213" text="{i18n>supplier}" labelFor="productSupplierSelect" required="true" />
+                <Select id="productSupplierSelect"
+                    items="{odataV2>/Suppliers}"
+                    selectedKey="{odataV2DialogUi>/selectedSupplierId}"
+                    valueState="{odataV2DialogUi>/validation/Supplier/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Supplier/valueStateText}"
+                    forceSelection="false">
+                    <core:Item id="_IDGenItem3" key="{odataV2>ID}" text="{odataV2>Name}" />
+                </Select>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button id="_IDGenButton3" 
+                text="{i18n>saveButton}"
+                type="Emphasized"
+                press=".onSaveNewProduct" />
+        </beginButton>
+        <endButton>
+            <Button id="_IDGenButton4" 
+                text="{i18n>cancelButton}"
+                press=".onCancelAddProduct" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

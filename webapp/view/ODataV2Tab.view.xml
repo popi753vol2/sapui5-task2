@@ -13,7 +13,10 @@
         <headerToolbar>
             <Toolbar id="_IDGenToolbar1">
                 <Title id="_IDGenTitle1" text="{i18n>booksTableTitle}" />
-
+                 <Button id="addRecordButtonV2"
+                    text="{i18n>addRecord}"
+                    icon="sap-icon://add"
+                    press=".openDialog" />
                 <Button id="deleteRecordButtonV2"
                     text="{i18n>deleteRecord}"
                     icon="sap-icon://delete"
