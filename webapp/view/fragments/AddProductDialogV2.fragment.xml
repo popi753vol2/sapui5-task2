@@ -10,15 +10,15 @@
                 <Input id="_IDGenInput1"
                     
                     value="{odataV2>Name}"
-                    valueState="{odataV2Ui>/validation/Name/valueState}"
-                    valueStateText="{odataV2Ui>/validation/Name/valueStateText}"
+                    valueState="{odataV2DialogUi>/validation/Name/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Name/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel6"  text="{i18n>description}" labelFor="productDescriptionInput" required="true" />
                 <Input id="_IDGenInput2"
                     
                     value="{odataV2>Description}"
-                    valueState="{odataV2Ui>/validation/Description/valueState}"
-                    valueStateText="{odataV2Ui>/validation/Description/valueStateText}"
+                    valueState="{odataV2DialogUi>/validation/Description/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Description/valueStateText}"
                     required="true" />
                
                 <Label id="_IDGenLabel8"  text="{i18n>releaseDate}" labelFor="productReleaseDateInput" required="true" />
@@ -30,8 +30,8 @@
                     }"  
                     valueFormat="yyyy-MM-dd"
                     displayFormat="yyyy-MM-dd"
-                    valueState="{odataV2Ui>/validation/ReleaseDate/valueState}"
-                    valueStateText="{odataV2Ui>/validation/ReleaseDate/valueStateText}"
+                    valueState="{odataV2DialogUi>/validation/ReleaseDate/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/ReleaseDate/valueStateText}"
                     required="true" />
                 
                  <Label id="_IDGenLabel81"  text="{i18n>discontinuedDate}" labelFor="productDiscontinuedDateInput" required="true" />
@@ -43,8 +43,8 @@
                     }"  
                     valueFormat="yyyy-MM-dd"
                     displayFormat="yyyy-MM-dd"
-                    valueState="{odataV2Ui>/validation/DiscontinuedDate/valueState}"
-                    valueStateText="{odataV2Ui>/validation/DiscontinuedDate/valueStateText}"
+                    valueState="{odataV2DialogUi>/validation/DiscontinuedDate/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/DiscontinuedDate/valueStateText}"
                     required="true" />
                     
                 <Label id="_IDGenLabel9"  text="{i18n>rating}" labelFor="productRatingInput" required="true" />
@@ -52,32 +52,32 @@
                     
                     value="{odataV2>Rating}"
                     type="Number"
-                    valueState="{odataV2Ui>/validation/Rating/valueState}"
-                    valueStateText="{odataV2Ui>/validation/Rating/valueStateText}"
+                    valueState="{odataV2DialogUi>/validation/Rating/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Rating/valueStateText}"
                     required="true" />
 
                     <Label id="_IDGenLabe20"  text="{i18n>price}" labelFor="productPriceInput" required="true" />
                 <Input id="_IDGenInput5"
                     value="{odataV2>Price}"
                     type="Number"
-                    valueState="{odataV2Ui>/validation/Price/valueState}"
-                    valueStateText="{odataV2Ui>/validation/Price/valueStateText}"
+                    valueState="{odataV2DialogUi>/validation/Price/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Price/valueStateText}"
                     required="true" />
                 <Label id="_IDGenLabel21" text="{i18n>category}" labelFor="productCategorySelect" required="true" />
                 <Select id="productCategorySelect"
                     items="{odataV2>/Categories}"
-                    selectedKey="{odataV2Ui>/selectedCategoryId}"
-                    valueState="{odataV2Ui>/validation/Category/valueState}"
-                    valueStateText="{odataV2Ui>/validation/Category/valueStateText}"
+                    selectedKey="{odataV2DialogUi>/selectedCategoryId}"
+                    valueState="{odataV2DialogUi>/validation/Category/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Category/valueStateText}"
                     forceSelection="false">
                     <core:Item id="_IDGenItem2" key="{odataV2>ID}" text="{odataV2>Name}" />
                 </Select>
                 <Label id="_IDGenLabel213" text="{i18n>supplier}" labelFor="productSupplierSelect" required="true" />
                 <Select id="productSupplierSelect"
                     items="{odataV2>/Suppliers}"
-                    selectedKey="{odataV2Ui>/selectedSupplierId}"
-                    valueState="{odataV2Ui>/validation/Supplier/valueState}"
-                    valueStateText="{odataV2Ui>/validation/Supplier/valueStateText}"
+                    selectedKey="{odataV2DialogUi>/selectedSupplierId}"
+                    valueState="{odataV2DialogUi>/validation/Supplier/valueState}"
+                    valueStateText="{odataV2DialogUi>/validation/Supplier/valueStateText}"
                     forceSelection="false">
                     <core:Item id="_IDGenItem3" key="{odataV2>ID}" text="{odataV2>Name}" />
                 </Select>

@@ -15,10 +15,7 @@ sap.ui.define([
             onInit() {
                 this.getView().setModel(new JSONModel({
                     hasSelection: false,
-                    isDeleting: false,
-                    selectedCategoryId: "",
-                    selectedSupplierId: "",
-                    validation: {}
+                    isDeleting: false
                 }), "odataV2Ui");
             },
 
@@ -124,15 +121,20 @@ sap.ui.define([
                     });
                 }
 
+                this.oDialog.setModel(new JSONModel({
+                    selectedCategoryId: "",
+                    selectedSupplierId: "",
+                    validation: {}
+                }), "odataV2DialogUi");
+
                 const oProductContext = oDataV2Model.createEntry("/Products", {
-                    expand: "Category,Supplier",
                     properties: {
-                        Name: "asdf",
-                        Description: "adsf",
-                        ReleaseDate: new Date(121212),
-                        DiscontinuedDate: new Date(),
-                        Rating: 231,
-                        Price: 3412
+                        Name: "",
+                        Description: "",
+                        ReleaseDate: "",
+                        DiscontinuedDate: "",
+                        Rating: NaN,
+                        Price: NaN
 
                     },
                     success: () => {
@@ -148,9 +150,9 @@ sap.ui.define([
                     }
                 });
                 this.oDialog.setBindingContext(oProductContext, "odataV2");
-                const oUiModel = this.getModel("odataV2Ui");
-                oUiModel.setProperty("/selectedCategoryId", "");
-                oUiModel.setProperty("/selectedSupplierId", "");
+                const oUiModel = this.oDialog.getModel("odataV2DialogUi");
+                oUiModel?.setProperty("/selectedCategoryId", "");
+                oUiModel?.setProperty("/selectedSupplierId", "");
                 this.clearAddProductValidation();
                 this.oDialog.open();
             },
@@ -163,7 +165,7 @@ sap.ui.define([
                         valueStateText: ""
                     };
                 });
-                this.getModel("odataV2Ui").setProperty("/validation", oValidation);
+                this.oDialog.getModel("odataV2DialogUi").setProperty("/validation", oValidation);
             },
 
             onSaveNewProduct() {
@@ -174,7 +176,7 @@ sap.ui.define([
                     return;
                 }
                 const oData = oProductContext.getObject();
-                const oUiModel = this.getModel("odataV2Ui");
+                const oUiModel = this.oDialog.getModel("odataV2DialogUi");
 
                 const sName = oData.Name.trim();
                 const sDescription = oData.Description.trim();
