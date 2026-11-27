@@ -9,7 +9,6 @@ sap.ui.define([
 
         const ValueState = coreLibrary.ValueState;
 
-
         return BaseController.extend("project.controller.ODataV2", {
 
             onInit() {
@@ -112,67 +111,63 @@ sap.ui.define([
                 );
             },
 
-            async openDialog() {
+            async onAddProduct() {
+                this.openDialog();
+            },
+
+            async onEditProduct(oEvent) {
+                const oProductContext = oEvent.getSource().getBindingContext("odataV2");
+                await this.openDialog(oProductContext);
+            },
+
+            async openDialog(oProductContext) {
                 const oDataV2Model = this.getModel("odataV2");
 
                 if (!this.oDialog) {
                     this.oDialog = await this.loadFragment({
                         name: "project.view.fragments.AddProductDialogV2"
                     });
+
+                    this.oDialog.setModel(new JSONModel({
+                        selectedCategoryId: oProductContext ? String(oProductContext.getProperty("Category/ID") || "") : "",
+                        selectedSupplierId: oProductContext ? String(oProductContext.getProperty("Supplier/ID") || "") : "",
+                        bEditMode: Boolean(oProductContext),
+                        validation: {}
+                    }), "odataV2DialogUi");
                 }
 
-                this.oDialog.setModel(new JSONModel({
-                    selectedCategoryId: "",
-                    selectedSupplierId: "",
+                this.oDialog.getModel("odataV2DialogUi").setData({
+                    selectedCategoryId: oProductContext ? String(oProductContext.getProperty("Category/ID") || "") : "",
+                    selectedSupplierId: oProductContext ? String(oProductContext.getProperty("Supplier/ID") || "") : "",
+                    bEditMode: Boolean(oProductContext),
                     validation: {}
-                }), "odataV2DialogUi");
-
-                const oProductContext = oDataV2Model.createEntry("/Products", {
-                    properties: {
-                        Name: "",
-                        Description: "",
-                        ReleaseDate: "",
-                        DiscontinuedDate: "",
-                        Rating: NaN,
-                        Price: NaN
-
-                    },
-                    success: () => {
-                        MessageToast.show(this.getText("addRecordsSuccess", [this.getText("product")]));
-                        this.oDialog.setBindingContext(null, "odataV2");
-                        this.oDialog.close();
-                    },
-                    error: (oError) => {
-                        MessageBox.error(
-                            oError && oError.message ||
-                            this.getText("addRecordsFailed", [this.getText("product")])
-                        );
-                    }
                 });
-                this.oDialog.setBindingContext(oProductContext, "odataV2");
-                const oUiModel = this.oDialog.getModel("odataV2DialogUi");
-                oUiModel?.setProperty("/selectedCategoryId", "");
-                oUiModel?.setProperty("/selectedSupplierId", "");
-                this.clearAddProductValidation();
+
+                if (oProductContext) {
+                    this.oDialog.setBindingContext(oProductContext, "odataV2");
+                } else {
+                    const oDialogProductContext = oDataV2Model.createEntry("/Products", {
+                        properties: {
+                            Name: "",
+                            Description: "",
+                            ReleaseDate: "",
+                            DiscontinuedDate: "",
+                            Rating: NaN,
+                            Price: NaN
+                        }
+                    });
+                    this.oDialog.setBindingContext(oDialogProductContext, "odataV2");
+
+                }
+
                 this.oDialog.open();
             },
 
-            clearAddProductValidation() {
-                const oValidation = {};
-                ["Name", "Description", "ReleaseDate", "DiscontinuedDate", "Rating", "Price", "Category", "Supplier"].forEach((sField) => {
-                    oValidation[sField] = {
-                        valueState: ValueState.None,
-                        valueStateText: ""
-                    };
-                });
-                this.oDialog.getModel("odataV2DialogUi").setProperty("/validation", oValidation);
-            },
-
-            onSaveNewProduct() {
+            onSaveProduct() {
                 const oDataV2Model = this.getModel("odataV2");
                 const oProductContext = this.oDialog.getBindingContext("odataV2");
                 if (!oProductContext) {
-                    MessageBox.error(this.getText("addRecordsFailed", [this.getText("product")]));
+                    MessageBox.error(this.getText("saveRecordsFailed", [this.getText("product")]));
                     return;
                 }
                 const oData = oProductContext.getObject();
@@ -199,16 +194,16 @@ sap.ui.define([
                 const bValidDates = oReleaseDate < oDiscontinuedDate;
 
                 const aValidation = [
-                    ["Name", Boolean(sName), "addFieldRequired"],
-                    ["Description", Boolean(sDescription), "addFieldRequired"],
-                    ["ReleaseDate", bReleaseDateIsValid, "addFieldRequired"],
-                    ["ReleaseDate", bValidDates, "addDateInvalid"],
-                    ["DiscontinuedDate", bDiscontinuedDateIsValid, "addFieldRequired"],
-                    ["DiscontinuedDate", bValidDates, "addDateInvalid"],
-                    ["Rating", Boolean(sRating) && Number.isInteger(iRating) && iRating >= 0, "addFieldRequired"],
-                    ["Price", Boolean(sPrice) && !isNaN(iPrice) && iPrice >= 0, "addFieldRequired"],
-                    ["Category", Boolean(sCategory) && Number.isInteger(iCategoryId), "addFieldRequired"],
-                    ["Supplier", Boolean(sSupplier) && Number.isInteger(iSupplierId), "addFieldRequired"]
+                    ["Name", Boolean(sName), "fieldRequired"],
+                    ["Description", Boolean(sDescription), "fieldRequired"],
+                    ["ReleaseDate", bReleaseDateIsValid, "fieldRequired"],
+                    ["ReleaseDate", bValidDates, "dateInvalid"],
+                    ["DiscontinuedDate", bDiscontinuedDateIsValid, "fieldRequired"],
+                    ["DiscontinuedDate", bValidDates, "dateInvalid"],
+                    ["Rating", Boolean(sRating) && Number.isInteger(iRating) && iRating >= 0, "fieldRequired"],
+                    ["Price", Boolean(sPrice) && !isNaN(iPrice) && iPrice >= 0, "fieldRequired"],
+                    ["Category", Boolean(sCategory) && Number.isInteger(iCategoryId), "fieldRequired"],
+                    ["Supplier", Boolean(sSupplier) && Number.isInteger(iSupplierId), "fieldRequired"]
                 ];
                 const oValidation = {};
                 let bIsValid = true;
@@ -223,29 +218,39 @@ sap.ui.define([
                 });
                 oUiModel.setProperty("/validation", oValidation);
 
-                if (!bIsValid) {
-                    MessageBox.error(this.getText("addValidationMessage", [this.getText("product")]));
-                    return;
-                }
-
                 const sCategoryPath = oDataV2Model.createKey("/Categories", { ID: iCategoryId });
                 const sSupplierPath = oDataV2Model.createKey("/Suppliers", { ID: iSupplierId });
 
                 const oCategory = oDataV2Model.getProperty(sCategoryPath);
                 const oSupplier = oDataV2Model.getProperty(sSupplierPath);
 
-                if (!oCategory || !oSupplier) {
-                    MessageBox.error(this.getText("addValidationMessage", [this.getText("product")]));
+                if (!oCategory || !oSupplier || !bIsValid) {
+                    MessageBox.error(this.getText("saveValidationMessage", [this.getText("product")]));
                     return;
                 }
 
                 oProductContext.setProperty("Category", oCategory);
                 oProductContext.setProperty("Supplier", oSupplier);
 
-                oDataV2Model.submitChanges();
+                oDataV2Model.submitChanges({
+                    success: () => {
+                        MessageToast.show(this.getText("saveRecordsSuccess", [this.getText("product")]));
+                        this.oDialog.setBindingContext(null, "odataV2");
+                        this.oDialog.close();
+                    },
+                    error: (oError) => {
+                        MessageBox.error(
+                            oError && oError.message ||
+                            this.getText("saveRecordsFailed", [this.getText("product")])
+                        );
+                    }
+                });
+
+                this.oDialog.setBindingContext(null, "odataV2");
+                this.oDialog.close();
             },
 
-            onCancelAddProduct() {
+            onCancelProduct() {
                 const oProductContext = this.oDialog?.getBindingContext("odataV2");
                 if (oProductContext) {
                     this.getModel("odataV2").deleteCreatedEntry(oProductContext);

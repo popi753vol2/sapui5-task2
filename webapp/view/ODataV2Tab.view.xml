@@ -16,7 +16,7 @@
                  <Button id="addRecordButtonV2"
                     text="{i18n>addRecord}"
                     icon="sap-icon://add"
-                    press=".openDialog" />
+                    press=".onAddProduct" />
                 <Button id="deleteRecordButtonV2"
                     text="{i18n>deleteRecord}"
                     icon="sap-icon://delete"
@@ -36,6 +36,7 @@
             <Column id="_IDGenColumn14"><Text id="_IDGenText18" text="{i18n>price}" /></Column>
             <Column id="_IDGenColumn152"><Text id="_IDGenText191223" text="{i18n>category}" /></Column>
             <Column id="_IDGenColumn1513"><Text id="_IDGenText19123" text="{i18n>supplier}" /></Column>
+            <Column id="_IDGenEditColumn"><Text id="_IDGenEditColumnText" text="{i18n>actions}" /></Column>
 
         </columns>
         <items>
@@ -50,6 +51,7 @@
                     <ObjectNumber id="_IDGenObjectNumber1" number="{odataV2>Price}" />
                     <Text id="_IDGenText25" text="{odataV2>Category/Name}" />
                     <Text id="_IDGenText2213" text="{odataV2>Supplier/Name}" />
+                    <Button id="_IDGenEditButton" text="{i18n>edit}" press=".onEditProduct" />
                 </cells>
             </ColumnListItem>
         </items>
